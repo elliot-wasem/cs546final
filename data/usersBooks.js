@@ -56,6 +56,9 @@ const remove = async function remove(id) {
     if (!(typeof id === 'string')) {
         throw new Error('Error: id must be of type string');
     }
+    if (String(id).length != 24) {
+        throw new Error("Error: Invalid bookId");
+    }
 
     const usersBooksCollection = await usersBooks();
 
@@ -73,8 +76,13 @@ const read = async function(userId) {
     if (!userId) {
         throw new Error('Error: You must provide an id to search for.');
     }
+
     if (!(typeof userId === 'string')) {
         throw new Error('Error: id must be of type string');
+    }
+
+    if (String(userId).length != 24) {
+        throw new Error("Error: Invalid bookId");
     }
 
     const usersBooksCollection = await usersBooks();
