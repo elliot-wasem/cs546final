@@ -17,6 +17,12 @@ const getCollectionFn = collection => {
 
 /* Now, you can list your collections here: */
 module.exports = {
+<<<<<<< HEAD
   books: getCollectionFn("books"),
   toRead: getCollectionFn("toRead")
 };
+=======
+    books: getCollectionFn("books"),
+    users: getCollectionFn("users")
+};
+>>>>>>> f1cbf761d44beb93b203fafe1f12847092665ab1
