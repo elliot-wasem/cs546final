@@ -20,7 +20,7 @@ let myLogger = function (req, res, next) {
     }
     console.log("[" + current_time + "]: " + method + " " + url + " Auth: " + auth);
     next();
-}
+};
 
 const constructorMethod = app => {
     app.all("*", function (req, res, next) {
@@ -84,12 +84,12 @@ const constructorMethod = app => {
 
         response.status(201).render('pages/login', {
             message: `201 - User ${user} created successfully.`
-        })
-    })
+        });
+    });
 
     app.get('/logout', function(request, response) {
         request.session.currentUser = null;
-        response.redirect('/login')
+        response.redirect('/login');
     });
 };
 
