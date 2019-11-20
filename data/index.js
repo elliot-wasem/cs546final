@@ -1,7 +1,6 @@
 const books = require ('./books.js');
 const connection = require('./connection');
 const csvtojson = require('csvtojson');
-const jsontocsv = require('json2csv');
 const fs = require('fs');
 
 const convCsvToJson = async function convCsvToJson(filePath) {
