@@ -1,0 +1,30 @@
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="/public/stylesheet.css">
+    <title>Book Database</title>
+</head>
+<body>
+  <header>
+  </header>
+  <h1>
+    Book Database
+  </h1>
+  <main>
+    <form method="post" action="/search" id="login-form">
+      <label for="search">Search</label>
+      <input type="text" name="search" id="search"/>
+      <input type="submit" value="search" />
+    </form>
+    <div id="BookList">
+        <ul>
+        {{#each books}}  
+            <li>
+            <h2>{{Title}}</h2>
+            <p>Author: {{Author}} Isbn:{{Isbn}}</p>
+            <a href="/details/{{id}}"> Details</a>
+            </li>
+        {{/each}}
+        </ul>
+    </div> 
+  </main>
+</body>
