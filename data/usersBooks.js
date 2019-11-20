@@ -31,6 +31,13 @@ const create = async function create(userId, bookId, completedBool, notes) {
 
     const usersBooksCollection = await usersBooks();
 
+    // Verify that userId/bookId combo does not already exist in the collection
+    for (i = 0; i < usersBooksCollection.length; i++) {
+        if ((ObjectId(userId) === ObjectId(usersBooksCollection[i].userId)) && (ObjectId(bookId) === ObjectId(usersBooksCollection[i].bookId))) {
+            throw new Error('Error: Attempt to insert duplicate book for the given user');
+        }
+    }
+
     let newBook = {
         userId: userId,
         bookId: bookId,
@@ -49,20 +56,39 @@ const create = async function create(userId, bookId, completedBool, notes) {
     return book;
 };
 
-const remove = async function remove(id) {
-    if (!id) {
-        throw new Error('Error: You must provide an id to search for.');
+const remove = async function remove(userId, bookId) {
+    if (!userId) {
+        throw new Error('Error: You must provide a userId to search for.');
     }
-    if (!(typeof id === 'string')) {
-        throw new Error('Error: id must be of type string');
+    if (!bookId) {
+        throw new Error('Error: You must provide a bookId to search for.')
     }
-    if (String(id).length != 24) {
+    if (!(typeof userId === 'string')) {
+        throw new Error('Error: userId must be of type string');
+    }
+    if (!(typeof bookId === 'string')) {
+        throw new Error('Error: bookId must be of type string');
+    }
+
+    if (String(userId).length != 24) {
+        throw new Error("Error: Invalid userId");
+    }
+    if (String(bookId).length != 24) {
         throw new Error("Error: Invalid bookId");
     }
 
     const usersBooksCollection = await usersBooks();
 
-    const bookToDelete = await usersBooksCollection.findOne({ _id: ObjectId(id)});
+    const bookToDelete = await usersBooksCollection.findOne({ userId: ObjectId(userId), bookId: ObjectId(bookId)});
+    if (bookToDelete === null) {
+        throw new Error('Error: Could not delete the entry with the specified userId and bookId');
+    }
+
+    const entryToDeleteInfo = usersBooksCollection.removeOne({ userId: ObjectId(userId), bookId: ObjectId(bookId)});
+
+    if (entryToDeleteInfo.deletedCount === 0) {
+        throw new Error('Error: Could not delete the entry with the specified userId and bookId');
+    }
 
     let result = {
         'deleted': true,
