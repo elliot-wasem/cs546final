@@ -4,7 +4,7 @@
   "description": "cs546final",
   "main": "index.js",
   "scripts": {
-    "start: "node index.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,13 @@
   "bugs": {
     "url": "https://github.com/elliot-wasem/cs546final/issues"
   },
-  "homepage": "https://github.com/elliot-wasem/cs546final#readme"
+  "homepage": "https://github.com/elliot-wasem/cs546final#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "express-session": "^1.17.0",
+    "mongodb": "^3.3.4",
+    "path": "^0.12.7"
+  }
 }
