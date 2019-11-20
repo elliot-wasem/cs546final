@@ -6,4 +6,19 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
+#Login{
+    position:absolute;
+    width:15%
+}
+
+#Signup{
+    position:absolute;
+    width:15%;
+    left:20%;
+}
+
+input[type="text"],input[type="password"]{
+    width:300px;
+}
+
 
