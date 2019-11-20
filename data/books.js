@@ -31,18 +31,18 @@ const create = async function create(title, author, imageUrl, keywords) {
         keywords: keywords
     };
 
-    const bookExists = await bookCollection.findOne(newBook);
+//    const bookExists = await bookCollection.findOne(newBook);
 
-    if (!bookExists) {
+    // if (!bookExists) {
         const insertInfo = await bookCollection.insertOne(newBook);
         if (insertInfo.insertedCount === 0) {
             throw new Error('Error: Could not create book.');
         }
         const newId = insertInfo.insertedId;
         return newId;
-    } else {
-        return bookExists._id;
-    }
+    // } else {
+    //     return bookExists._id;
+    // }
 
 
     // const book = await this.get(String(newId));

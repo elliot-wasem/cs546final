@@ -16,19 +16,19 @@ async function buildData() {
     const db = await connection();
 
     // check if database is built
-    const sumBooks = await collection.books();
-    if (await sumBooks.findOne({book_id: 1}) !== null) {
-	await db.serverConfig.close();
-	return;
-    }
+    try {
+	await db.collection("books").drop();
+    } catch (e) {}
+    try {
+	await db.collection("users").drop();
+    } catch (e) {}
+    try {
+	await db.collection("usersBooks").drop();
+    } catch (e) {}
 
     let allBookObjects = await convCsvToJson('./goodbooks-10k/books.csv');
     let bookTags = await convCsvToJson('./goodbooks-10k/book_tags.csv');
     let tags = await convCsvToJson('./goodbooks-10k/tags.csv');
-
-    // console.log('WHAT IS HAPPENING');
-    // console.log(allBookObjects.length);
-    // console.log('WHAT IS HAPPENING REALLY COME ON');
 
     let i = 0;
 
