@@ -45,8 +45,6 @@ async function buildData() {
     console.log("Loading database. Give it up to 20 seconds (if working on slow hardware)");
     while (i < allBookObjects.length) {
         try {
-            // FOR EVERY BOOK ID, GO INTO BOOK_TAGS.CSV AND GET ALL THE TAG IDS
-            // THEN GO INTO TAGS.CSV AND FIND THE TAG ASSOCIATED W EACH TAG ID
             let currBookTagIds = [];
             let currBookTags = bookToTags[allBookObjects[i].goodreads_book_id];
 
