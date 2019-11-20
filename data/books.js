@@ -38,14 +38,14 @@ const create = async function create(title, author, genre, keywords) {
     const bookExists = await bookCollection.findOne(newBook);
 
     if (!bookExists) {
-	const insertInfo = await bookCollection.insertOne(newBook);
-	if (insertInfo.insertedCount === 0) {
+        const insertInfo = await bookCollection.insertOne(newBook);
+        if (insertInfo.insertedCount === 0) {
             throw new Error ('Error: Could not create book.');
-	}
-	const newId = insertInfo.insertedId;
-	return newId;
+        }
+        const newId = insertInfo.insertedId;
+        return newId;
     } else {
-	return bookExists._id;
+        return bookExists._id;
     }
 
 
