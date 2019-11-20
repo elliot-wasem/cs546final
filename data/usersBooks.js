@@ -64,3 +64,16 @@ const remove = async function remove(id) {
 
     return result;
 }
+
+const read = async function(userId) {
+    if (!userId) {
+        throw new Error('Error: You must provide an id to search for.');
+    }
+    if (!(typeof userId === 'string')) {
+        throw new Error('Error: id must be of type string');
+    }
+
+    const usersBooksCollection = await usersBooks();
+
+    return await usersBooksCollection.find({userId: userId});
+};
