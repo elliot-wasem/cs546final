@@ -1,5 +1,6 @@
 const books = require ('./books.js');
 const connection = require('./connection');
+const collection = require('./collections');
 const csvtojson = require('csvtojson');
 const fs = require('fs');
 
@@ -11,16 +12,23 @@ const convCsvToJson = async function convCsvToJson(filePath) {
 
 // Write a function that reads the file and returns an array of JSON objects
 // Then iterate through the array using a for loop and subscript the JSON objects to get the info needed to create objects to write to the DB
-async function main() {
+async function buildData() {
     const db = await connection();
 
-    let allBookObjects = await convCsvToJson('../goodbooks-10k/books.csv');
-    let bookTags = await convCsvToJson('../goodbooks-10k/book_tags.csv');
-    let tags = await convCsvToJson('../goodbooks-10k/tags.csv');
+    // check if database is built
+    const sumBooks = await collection.books();
+    if (await sumBooks.findOne({book_id: 1}) !== null) {
+	await db.serverConfig.close();
+	return;
+    }
 
-    console.log('WHAT IS HAPPENING');
-    console.log(allBookObjects.length);
-    console.log('WHAT IS HAPPENING REALLY COME ON');
+    let allBookObjects = await convCsvToJson('./goodbooks-10k/books.csv');
+    let bookTags = await convCsvToJson('./goodbooks-10k/book_tags.csv');
+    let tags = await convCsvToJson('./goodbooks-10k/tags.csv');
+
+    // console.log('WHAT IS HAPPENING');
+    // console.log(allBookObjects.length);
+    // console.log('WHAT IS HAPPENING REALLY COME ON');
 
     let i = 0;
 
@@ -67,6 +75,6 @@ async function main() {
     await db.serverConfig.close();
 }
 
-main().catch(error => {
-    console.log(error);
-});
+module.exports = {
+    buildData
+};
