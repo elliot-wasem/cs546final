@@ -28,16 +28,13 @@ async function getByUsername(username) {
     return user;
 }
 
-async function isPasswordCorrect(username, password) {
+async function isPasswordCorrect(username, hashedPassword) {
     if (!username) throw "must provide a username to create a user";
-    if (!password) throw "must provide a password";
+    if (!hashedPassword) throw "must provide a hashedPassword";
     if (typeof(username) != "string") throw "username must be a string!";
-    if (typeof(password) != "string") throw "password must be a string!";
+    if (typeof(hashedPassword) != "string") throw "hashedPassword must be a string!";
 
     const userCollection = await users();
-
-    // TODO: hash password before checking
-    const hashedPassword = password;
 
     const user = await userCollection.findOne({username: username});
 
@@ -48,19 +45,18 @@ async function isPasswordCorrect(username, password) {
     return true;
 }
 
-async function createUser(username, password) {
+async function createUser(username, hashedPassword) {
     if (!username) throw "must provide a username to create a user";
-    if (!password) throw "must provide a password";
+    if (!hashedPassword) throw "must provide a password";
     if (typeof(username) != "string") throw "username must be a string!";
-    if (typeof(password) != "string") throw "password must be a string!";
+    if (typeof(hashedPassword) != "string") throw "password must be a string!";
 
     const userCollection = await users();
 
-    // TODO: hash password before storage
     const newUser = {
 	sessionId: undefined,
 	username: username,
-	password: password
+	password: hashedPassword
     };
 
     const doesUserExist = await userCollection.findOne({username: username});
