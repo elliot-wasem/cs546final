@@ -1,37 +1,48 @@
 const mongoCollections = require("./collections");
-const toRead = mongoCollections.toRead;
+const usersBooks = mongoCollections.usersBooks;
 const ObjectId = require('mongodb').ObjectID;
 
 const create = async function create(userId, bookId, completed_bool, notes) {
     if (!userId && !bookId && !completed_bool && !notes) {
-        throw new Error('Error: You must provide a userId, bookId, completed_bool, notes.');
+        throw new Error('Error: You must provide a userId, bookId, completedBool, notes.');
     }
     if (!userId || !myBooks || !completed_bool || !notes) {
-        throw new Error('ErrorL: One or more arguments missing.');
+        throw new Error('Error: One or more arguments missing.');
     }
     if (typeof userId !== 'string') {
-        throw new Error('userId must be a string');
+        throw new Error('Error: userId must be a string');
     }
-    if (!(Array.isArray(myBooks))) {
-        throw new Error('myBooks must be of type array.');
+    if (typeof completedBool !== 'boolean') {
+        throw new Error('Error: completedBool must be of boolean');
     }
-    for (i = 0; i < myBooks.length; i++) {
-        if (!(typeof myBooks[i] === 'object')) {
-            throw new Error('Each element of myBooks must be an object');
-        }
+    if (typeof notes !== 'string') {
+        throw new Error('Error: notes must be of type string');
     }
 
-    const toReadCollection = await toRead();
+    if (String(userId).length != 24) {
+        throw new Error('Error: Invalid userId');
+    }
+    if (String(id).length != 24) {
+        throw new Error("Error: Invalid bookId");
+    }
+
+    const usersBooksCollection = await usersBooks();
 
     let newBook = {
         userId: userId,
-        booksToRead: myBooks
+        bookId: bookId,
+        completed_bool: completed_bool,
+        notes: notes
     }
 
     const insertInfo = await toReadCollection.insertOne(newBook);
-    if (insertInfo.insertedINfo === 0) {
+    if (insertInfo.insertedCount === 0) {
         throw new Error('Error: Could not create book');
     }
+
+    const newId = insertInfo.insertedId;
+
+    
 }
 
 const remove = async function remove(id) {
