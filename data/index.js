@@ -32,25 +32,23 @@ async function buildData() {
 
     let i = 0;
 
+    let bookToTags = {};
+
+    for (; i < bookTags.length; i++) {
+	if (!bookToTags[bookTags[i].goodreads_book_id]) {
+	    bookToTags[bookTags[i].goodreads_book_id] = [];
+	}
+	bookToTags[bookTags[i].goodreads_book_id].push(tags[bookTags[i].tag_id].tag_name.toString());
+    }
+    i = 0;
+
+    console.log("Loading database. Give it up to 20 seconds (if working on slow hardware)");
     while (i < allBookObjects.length) {
-        console.log(i);
         try {
             // FOR EVERY BOOK ID, GO INTO BOOK_TAGS.CSV AND GET ALL THE TAG IDS
             // THEN GO INTO TAGS.CSV AND FIND THE TAG ASSOCIATED W EACH TAG ID
             let currBookTagIds = [];
-            for (j = 0; j < bookTags.length; j++) {
-                if (bookTags[j].goodreads_book_id === allBookObjects[i].goodreads_book_id) {
-                    currBookTagIds.push(String(bookTags[j].tag_id));
-                }
-            }
-            let currBookTags = [];
-            for (k = 0; k < currBookTagIds.length; k++) {
-                for (l = 0; l < tags.length; l++) {
-                    if (String(currBookTagIds[k]) === String(tags[l].tag_id)) {
-                        currBookTags.push(tags[l]['tag_name'].toString());
-                    }
-                }
-            }
+            let currBookTags = bookToTags[allBookObjects[i].goodreads_book_id];
 
             let newBook = {
                 title: allBookObjects[i].original_title,
