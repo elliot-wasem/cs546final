@@ -25,11 +25,6 @@ const create = async function create(title, author, genre, keywords) {
     if (!(Array.isArray(keywords))) {
         throw new Error('Error: keywords must be of type Array.');
     }
-    for (i = 0; i < keywords.length; i++) {
-        if (!(typeof keywords[i] === 'string')) {
-            throw new Error('Error: each element of keywords must be of type String.');
-        }
-    }
 
     const bookCollection = await books();
 
