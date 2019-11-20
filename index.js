@@ -4,6 +4,8 @@ const app = express();
 const configRoutes = require("./routes");
 const exphbs = require('express-handlebars');
 const data = require('./data');
+const static = express.static(__dirname + "/public");
+
 
 // Cookie stuff
 const session = require("express-session");
@@ -20,6 +22,7 @@ async function startup() {
     app.use(bodyParser.urlencoded({extended: true}));
     app.engine('handlebars', exphbs({}));
     app.set('view engine', 'handlebars');
+    app.use("/public", static);
     configRoutes(app);
 
     app.listen(3000, () => {
