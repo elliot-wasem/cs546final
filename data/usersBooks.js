@@ -36,7 +36,7 @@ const create = async function create(userId, bookId, completedBool, notes) {
         bookId: bookId,
         completedBool: completedBool,
         notes: notes
-    }
+    };
 
     const insertInfo = await usersBooksCollection.insertOne(newBook);
     if (insertInfo.insertedCount === 0) {
@@ -47,7 +47,7 @@ const create = async function create(userId, bookId, completedBool, notes) {
 
     const book = await this.get(String(newId));
     return book;
-}
+};
 
 const remove = async function remove(id) {
     if (!id) {
@@ -70,7 +70,7 @@ const remove = async function remove(id) {
     };
 
     return result;
-}
+};
 
 const read = async function(userId) {
     if (!userId) {
