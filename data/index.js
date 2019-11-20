@@ -1,7 +1,5 @@
 const books = require ('./books.js');
 const connection = require('./connection');
-
-// const csv = require('csv-parser');
 const csvtojson = require('csvtojson');
 const jsontocsv = require('json2csv');
 const fs = require('fs');
@@ -9,7 +7,7 @@ const fs = require('fs');
 const convCsvToJson = async function convCsvToJson(filePath) {
     var jsonObjArr = await csvtojson().fromFile(filePath);
     return jsonObjArr;
-}
+};
 
 
 // Write a function that reads the file and returns an array of JSON objects
@@ -29,7 +27,6 @@ async function main() {
 
     while (i < allBookObjects.length) {
         console.log(i);
-        // let newBook = undefined;
         try {
             // FOR EVERY BOOK ID, GO INTO BOOK_TAGS.CSV AND GET ALL THE TAG IDS
             // THEN GO INTO TAGS.CSV AND FIND THE TAG ASSOCIATED W EACH TAG ID
@@ -55,10 +52,13 @@ async function main() {
                 keywords: currBookTags
             };
 
-            newBook = await books.create(allBookObjects[i].original_title ? allBookObjects[i].original_title : allBookObjects[i].title, allBookObjects[i].authors ? allBookObjects[i].authors : "Author Not Listed", allBookObjects[i].image_url, currBookTags );
-            // console.log('~~~~~~~~~~~~~~~~~~~~');
-            // console.log(newBook);
-            // console.log('~~~~~~~~~~~~~~~~~~~~');
+            newBook = await books.create(
+		allBookObjects[i].original_title ?
+		    allBookObjects[i].original_title
+		    : allBookObjects[i].title,
+		allBookObjects[i].authors ?
+		    allBookObjects[i].authors
+		    : "Author Not Listed", allBookObjects[i].image_url, currBookTags );
         } catch (e) {
             console.error(e);
         }
