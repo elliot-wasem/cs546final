@@ -89,3 +89,91 @@ const read = async function(userId) {
 
     return await usersBooksCollection.find({userId: userId});
 };
+
+const updateCompleted = async function(userId, bookId, completed) {
+    if (!userId) {
+        throw new Error('Error: You must provide a user id to search for.');
+    }
+    if (!bookId) {
+        throw new Error('Error: You must provide a book id to search for.');
+    }
+    if (completed === undefined) {
+        throw new Error('Error: You must provide a completed status.');
+    }
+    if (!(typeof userId === 'string')) {
+        throw new Error('Error: userId must be of type string');
+    }
+    if (!(typeof bookId === 'string')) {
+        throw new Error('Error: userId must be of type string');
+    }
+    if (!(typeof completed === 'boolean')) {
+        throw new Error('Error: completed must be of type boolean');
+    }
+    if (String(userId).length != 24) {
+        throw new Error("Error: Invalid userId");
+    }
+    if (String(bookId).length != 24) {
+        throw new Error("Error: Invalid bookId");
+    }
+
+    const usersBooksCollection = await usersBooks();
+
+    const lookup = await usersBooksCollection.findOne({userId: userId, bookId: bookId});
+
+    if (lookup === null) throw `no entry with userId ${userId} and bookId ${bookId}`;
+
+    const newEntry = {
+	userId: userId,
+	bookId: bookId,
+	completed: completed,
+	notes: await lookup.notes
+    };
+
+    const updatedInfo = await usersBooksCollection.replaceOne({userId: userId, bookId: bookId}, newEntry);
+    if (updatedInfo.modifiedCount === 0) throw "could not update entry";
+    return await usersBooksCollection.findOne({userId: userId, bookId: bookId});
+};
+
+const updateNotes = async function(userId, bookId, notes) {
+    if (!userId) {
+        throw new Error('Error: You must provide a user id to search for.');
+    }
+    if (!bookId) {
+        throw new Error('Error: You must provide a book id to search for.');
+    }
+    if (!notes) {
+        throw new Error('Error: You must provide a book id to search for.');
+    }
+    if (!(typeof userId === 'string')) {
+        throw new Error('Error: userId must be of type string');
+    }
+    if (!(typeof bookId === 'string')) {
+        throw new Error('Error: userId must be of type string');
+    }
+    if (!(typeof notes === 'string')) {
+        throw new Error('Error: notes');
+    }
+    if (String(userId).length != 24) {
+        throw new Error("Error: Invalid userId");
+    }
+    if (String(bookId).length != 24) {
+        throw new Error("Error: Invalid bookId");
+    }
+
+    const usersBooksCollection = await usersBooks();
+
+    const lookup = await usersBooksCollection.findOne({userId: userId, bookId: bookId});
+
+    if (lookup === null) throw `no entry with userId ${userId} and bookId ${bookId}`;
+
+    const newEntry = {
+	userId: userId,
+	bookId: bookId,
+	completed: await lookup.completed,
+	notes: notes
+    };
+
+    const updatedInfo = await usersBooksCollection.replaceOne({userId: userId, bookId: bookId}, newEntry);
+    if (updatedInfo.modifiedCount === 0) throw "could not update entry";
+    return await usersBooksCollection.findOne({userId: userId, bookId: bookId});
+};
