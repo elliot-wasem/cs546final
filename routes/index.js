@@ -20,20 +20,63 @@ let myLogger = function (req, res, next) {
 
 const constructorMethod = app => {
     app.use("/", function (req, res, next) {
-        if (req.session) {
+        if (req.session.currentUser) {
             next();
         } else {
             res.redirect("/login");
         }
     });
+
     app.use(myLogger);
     app.use("/", homeRoute);
-    app.use("/login", loginRoute);
-    app.use("/logout", logoutRoute);
     app.use("/wish", wishRoute);
     app.use("/completed", completedRoute);
     app.use("/details", detailsRoute);
     app.use("/search", searchRoute);
+
+    app.get('/login', function(request, response) {
+        if (request.session.currentUser == null) {
+            response.render("pages/login");
+        }
+        else {
+            response.redirect("/");
+        }
+    });
+
+    app.post('/login', async function(request, response) {
+        let username = request.body.username;
+        let password = request.body.password;
+        var user = null;
+      
+        for (let i = 0; i < userData.length; i++) {
+            if (userData[i].username === username) {
+                user = userData[i];
+            }
+        }
+        
+        if (user) {
+            const authenticate = await bcrypt.compare(password, user.hashedPassword);
+            if (authenticate) {
+                request.session.currentUser = user._id;
+                response.redirect('/');
+            }
+            else {
+                response.status(401).render('pages/login', {
+                    error: "401 - You did not provide a valid username and/or password."
+                });
+            }
+        }
+        else {
+            response.status(401).render('pages/login', {
+                error: "401 - You did not provide a valid username."
+            });
+        }
+    });
+
+    app.get('/logout', function(request, response) {
+        request.session.currentUser = null;
+        response.redirect('/login')
+    });
 };
 
 module.exports = constructorMethod;
