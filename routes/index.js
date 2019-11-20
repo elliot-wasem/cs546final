@@ -19,13 +19,13 @@ let myLogger = function (req, res, next) {
 }
 
 const constructorMethod = app => {
-    // app.use("/", function (req, res, next) {
-    //     if (req.session.username) {
-    //         next();
-    //     } else {
-    //         res.status(403).sendFile(path.resolve("notLI.html"));
-    //     }
-    // });
+    app.use("/", function (req, res, next) {
+        if (req.session.id) {
+            next();
+        } else {
+            res.redirect("/login");
+        }
+    });
     app.use(myLogger);
     app.use("/", homeRoute);
     app.use("/login", loginRoute);
