@@ -20,7 +20,7 @@ let myLogger = function (req, res, next) {
 
 const constructorMethod = app => {
     app.use("/", function (req, res, next) {
-        if (req.session.id) {
+        if (req.session) {
             next();
         } else {
             res.redirect("/login");
