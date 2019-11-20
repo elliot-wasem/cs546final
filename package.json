@@ -1,0 +1,19 @@
+{
+  "name": "cs546final",
+  "version": "1.0.0",
+  "description": "cs546final",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elliot-wasem/cs546final.git"
+  },
+  "author": "Anthony Duca, StephenSzemis, Hyungho Seo, Kristen Tan, Nicole Hilden, Elliot Wasem",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/elliot-wasem/cs546final/issues"
+  },
+  "homepage": "https://github.com/elliot-wasem/cs546final#readme"
+}
