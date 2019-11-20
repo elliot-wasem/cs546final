@@ -31,21 +31,15 @@ const create = async function create(title, author, imageUrl, keywords) {
         keywords: keywords
     };
 
-//    const bookExists = await bookCollection.findOne(newBook);
+    const insertInfo = await bookCollection.insertOne(newBook);
 
-    // if (!bookExists) {
-        const insertInfo = await bookCollection.insertOne(newBook);
-        if (insertInfo.insertedCount === 0) {
-            throw new Error('Error: Could not create book.');
-        }
-        const newId = insertInfo.insertedId;
-        return newId;
-    // } else {
-    //     return bookExists._id;
-    // }
+    if (insertInfo.insertedCount === 0) {
+        throw new Error('Error: Could not create book.');
+    }
 
+    const newId = insertInfo.insertedId;
 
-    // const book = await this.get(String(newId));
+    return newId;
 };
 
 module.exports = {
