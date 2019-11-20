@@ -1,10 +1,14 @@
-const loginRoute = require("./login");
-const logoutRoute = require("./logout");
+const bcrypt = require("bcryptjs");
+
 const homeRoute = require("./home");
 const wishRoute = require("./wish");
 const completedRoute = require("./completed");
 const detailsRoute = require("./details");
 const searchRoute = require("./search");
+
+const userData = require("../data/users.js");
+
+const saltRounds = 16;
 
 let myLogger = function (req, res, next) {
     const current_time = new Date().toUTCString();
@@ -19,7 +23,11 @@ let myLogger = function (req, res, next) {
 }
 
 const constructorMethod = app => {
-    app.use("/", function (req, res, next) {
+    app.all("*", function (req, res, next) {
+        if (req.path == '/login' || req.path == '/logout') {
+            return next();
+        }
+
         if (req.session.currentUser) {
             next();
         } else {
@@ -28,11 +36,11 @@ const constructorMethod = app => {
     });
 
     app.use(myLogger);
-    app.use("/", homeRoute);
-    app.use("/wish", wishRoute);
-    app.use("/completed", completedRoute);
-    app.use("/details", detailsRoute);
-    app.use("/search", searchRoute);
+    // app.use("/", homeRoute);
+    // app.use("/wish", wishRoute);
+    // app.use("/completed", completedRoute);
+    // app.use("/details", detailsRoute);
+    // app.use("/search", searchRoute);
 
     app.get('/login', function(request, response) {
         if (request.session.currentUser == null) {
@@ -46,18 +54,12 @@ const constructorMethod = app => {
     app.post('/login', async function(request, response) {
         let username = request.body.username;
         let password = request.body.password;
-        var user = null;
-      
-        for (let i = 0; i < userData.length; i++) {
-            if (userData[i].username === username) {
-                user = userData[i];
-            }
-        }
+        var user = userData.getByUser(username);
         
         if (user) {
             const authenticate = await bcrypt.compare(password, user.hashedPassword);
             if (authenticate) {
-                request.session.currentUser = user._id;
+                request.session.currentUser = user.username;
                 response.redirect('/');
             }
             else {
@@ -72,6 +74,18 @@ const constructorMethod = app => {
             });
         }
     });
+
+    app.post('/register', async function(request, response) {
+        let username = request.body.username;
+        let password = request.body.password;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        const user = await userData.createUser(username, hashedPassword);
+
+        response.status(201).render('pages/login', {
+            message: `201 - User ${user} created successfully.`
+        })
+    })
 
     app.get('/logout', function(request, response) {
         request.session.currentUser = null;
