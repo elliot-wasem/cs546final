@@ -22,15 +22,18 @@
       <input type="submit" value="search" />
     </form>
     <div id="BookList">
-        <ul>
-        {{#each books}}  
-            <li>
-            <h2>{{Title}}</h2>
-            <p>Author: {{Author}} Isbn:{{Isbn}}</p>
-            <a href="/details/{{id}}"> Details</a>
-            </li>
-        {{/each}}
-        </ul>
+	<table>
+	  <tr>
+	    <th>Title</th>
+	    <th>Author</th>
+	  </tr>
+	  {{#each books}}
+	  <tr>
+	    <td>{{title}}</td>
+	    <td>{{author}}</td>
+	  </tr>
+	  {{/each}}
+	</table>
     </div> 
   </main>
 </body>

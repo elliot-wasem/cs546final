@@ -20,5 +20,9 @@ body {
 input[type="text"],input[type="password"]{
     width:300px;
 }
-
+tr, th, td, table {
+    border: 1px solid black;
+    rules: row;
+    align-items: left;
+}
 

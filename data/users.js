@@ -20,10 +20,8 @@ async function getByUsername(username) {
 
     const userCollection = await users();
 
-    if (String(id).length != 24) throw `Invalid username`;
-
     const user = await userCollection.findOne({ username: username });
-    if (user === null) throw `No user with username ${String(username)}`;
+    if (user === null) throw `No user with username ${username}`;
 
     return user;
 }

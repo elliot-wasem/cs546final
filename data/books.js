@@ -42,6 +42,23 @@ const create = async function create(title, author, imageUrl, keywords) {
     return newId;
 };
 
+const getAll = async function() {
+    const bookCollection = await books();
+
+    const theBooks = await bookCollection.find({}).toArray();
+    return theBooks;
+};
+const getN = async function(numberToGet) {
+    if (!numberToGet) throw "must provide a number";
+    if (typeof(numberToGet) != 'number') throw `must provide a number. ${numbertoget} is not a number you silly goose`;
+    const bookCollection = await books();
+
+    const theBooks = await bookCollection.find({}).sort({author: 1}).limit(numberToGet).toArray();
+    return theBooks;
+};
+
 module.exports = {
-    create
+    create,
+    getAll,
+    getN
 };

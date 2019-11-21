@@ -23,20 +23,7 @@ let myLogger = function (req, res, next) {
 };
 
 const constructorMethod = app => {
-    app.all("*", function (req, res, next) {
-        if (req.path == '/login' || req.path == '/logout') {
-            return next();
-        }
-
-        if (req.session.currentUser) {
-            next();
-        } else {
-            res.redirect("/login");
-        }
-    });
-
     app.use(myLogger);
-    // app.use("/", homeRoute);
     // app.use("/wish", wishRoute);
     // app.use("/completed", completedRoute);
     // app.use("/details", detailsRoute);
@@ -50,25 +37,32 @@ const constructorMethod = app => {
             response.redirect("/");
         }
     });
+    app.post('/signup', async (req, res, next) => {
+	const username = req.body.username;
+	const passwd = req.body.password;
+	console.log(await userData.createUser(username, await bcrypt.hash(passwd, 16)));
+	res.redirect("/login");
+    });
 
     app.post('/login', async function(request, response) {
-        let username = request.body.username;
-        let password = request.body.password;
-        var user = userData.getByUser(username);
-        
+        const username = request.body.username;
+        const passwd = request.body.password;
+        const user = await userData.getByUsername(username);
+        console.log(user);
         if (user) {
-            const authenticate = await bcrypt.compare(password, user.hashedPassword);
+	    let generatedPassword = await bcrypt.hash(passwd, 16);
+            const authenticate = await bcrypt.compare(passwd, user.password);
             if (authenticate) {
+		console.log("we in boyzzzzzzzzzz");
                 request.session.currentUser = user.username;
                 response.redirect('/');
-            }
-            else {
+            } else {
                 response.status(401).render('pages/login', {
                     error: "401 - You did not provide a valid username and/or password."
                 });
             }
-        }
-        else {
+        } else {
+	    console.log("nopenopenopenopenopenopenopenope");
             response.status(401).render('pages/login', {
                 error: "401 - You did not provide a valid username."
             });
@@ -91,6 +85,19 @@ const constructorMethod = app => {
         request.session.currentUser = null;
         response.redirect('/login');
     });
+    app.use("/", homeRoute);
+    app.all("*", function (req, res, next) {
+        if (req.path == '/login' || req.path == '/logout') {
+            return next();
+        }
+
+        if (req.session.currentUser) {
+            next();
+        } else {
+            res.redirect("/login");
+        }
+    });
+
 };
 
 module.exports = constructorMethod;
