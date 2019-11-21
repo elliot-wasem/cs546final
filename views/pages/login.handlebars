@@ -9,23 +9,24 @@
   <main>
     <div id="Login">
         <h1>Login</h1>
-        <form method="post" action="/login" id="login-form">
+        <form action="/" onsubmit="login(); return false;">
             <label for="username">Username</label>
-            <input type="text" name="username" id="username"/>
+            <input type="text" name="username" id="lusername"/>
             <label for="password">Password</label>
-            <input type="password" name="password" id="password"/>
-            <input type="submit" value="Login" />
+            <input type="password" name="password" id="lpassword"/>
+            <input type="submit" value="Login"/>
         </form>
     </div>
     <div id="Signup">
         <h1>Signup</h1>
-        <form method="post" action="/signup" id="signup-form">
+        <form action="/" onsubmit="signup(); return false;">
             <label for="username">Username</label>
-            <input type="text" name="username" id="username"/>
+            <input type="text" name="username" id="susername"/>
             <label for="password">Password</label>
-            <input type="password" name="password" id="password"/>
+            <input type="password" name="password" id="spassword"/>
             <input type="submit" value="Signup" />
         </form>
     </div>
   </main>
+  <script src="/public/ajax.js"></script>
 </body>
