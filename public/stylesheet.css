@@ -26,3 +26,6 @@ tr, th, td, table {
     align-items: left;
 }
 
+#loginindicator, #signupindicator {
+    visibility: hidden;
+}

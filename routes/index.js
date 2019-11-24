@@ -6,6 +6,9 @@ const completedRoute = require("./completed");
 const detailsRoute = require("./details");
 const searchRoute = require("./search");
 
+const thebooks = require("../data/books");
+
+
 const userData = require("../data/users.js");
 
 const saltRounds = 16;
@@ -27,8 +30,37 @@ const constructorMethod = app => {
     // app.use("/wish", wishRoute);
     // app.use("/completed", completedRoute);
     // app.use("/details", detailsRoute);
-    // app.use("/search", searchRoute);
+    app.post("/search", async (request, result) => {
+	if (request.session.currentUser) {
+	    let searchTerm = request.body.search;
 
+	    try {
+		let searchResult = await thebooks.search(searchTerm);
+		result.render("pages/home", {books: searchResult});
+	    } catch (e) {
+		result.redirect("/");
+	    }
+	    
+	} else {
+	    result.redirect("/login");
+	}
+    });
+
+    app.get("/book/:book_id", async (request, result) => {
+	console.log("we doing shit: book_id: " + request.params.book_id);
+	if (request.session.currentUser) {
+	    console.log("we are authenticated");
+	    try {
+		const book = await thebooks.get(request.params.book_id);
+		console.log("book: " + book);
+		result.render("pages/book", {book});
+	    } catch (e) {
+		console.log("for fucks sake: " + e);
+	    }
+	} else {
+            result.redirect("/login");
+	}
+    });
     app.get('/login', function(request, response) {
         if (request.session.currentUser == null) {
             response.render("pages/login");
@@ -37,19 +69,28 @@ const constructorMethod = app => {
             response.redirect("/");
         }
     });
-    app.post('/signup', async (req, res, next) => {
-	const username = req.body.username;
-	const passwd = req.body.password;
-	console.log(await userData.createUser(username, await bcrypt.hash(passwd, 16)));
-	res.redirect("/login");
+    app.post('/signup', async (request, response, next) => {
+	const username = request.body.username;
+	const passwd = request.body.password;
+	try {
+	    await userData.createUser(username, await bcrypt.hash(passwd, 16));
+	    console.log("woohoo");
+	    response.redirect("/login");
+	} catch (e) {
+	    console.log("fuck");
+	    response.render("pages/login", {errorsignup: e});
+	    return;
+	}
     });
 
     app.post('/login', async function(request, response) {
+	console.log("ffffffffffffffffffffffffffffffff");
         const username = request.body.username;
         const passwd = request.body.password;
         const user = await userData.getByUsername(username);
         console.log(user);
         if (user) {
+	    console.log("ififififififif");
 	    let generatedPassword = await bcrypt.hash(passwd, 16);
             const authenticate = await bcrypt.compare(passwd, user.password);
             if (authenticate) {
@@ -57,8 +98,9 @@ const constructorMethod = app => {
                 request.session.currentUser = user.username;
                 response.redirect('/');
             } else {
+		console.log("ifnopeifnopeifnopeifnopeifnopeifnope");
                 response.status(401).render('pages/login', {
-                    error: "401 - You did not provide a valid username and/or password."
+                    errorlogin: "401 - You did not provide a valid username and/or password."
                 });
             }
         } else {

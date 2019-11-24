@@ -7,25 +7,36 @@
   <header>
   </header>
   <main>
+    <h1>Welcome to our book thing</h1>
     <div id="Login">
-        <h1>Login</h1>
+      <h3>Login</h3>
+      <div id="loginindicator"><p>Loggin you in now...<br />Please be patient, I am slow!</p></div>
+      <!-- <form action="/" onsubmit="login(); return false;"> -->
         <form action="/" onsubmit="login(); return false;">
-            <label for="username">Username</label>
-            <input type="text" name="username" id="lusername"/>
-            <label for="password">Password</label>
-            <input type="password" name="password" id="lpassword"/>
-            <input type="submit" value="Login"/>
+          <label for="username">Username</label>
+          <input type="text" name="username" id="lusername"/>
+          <label for="password">Password</label>
+          <input type="password" name="password" id="lpassword"/>
+          <input type="submit" value="Login"/>
         </form>
+      {{errorlogin}}
     </div>
     <div id="Signup">
-        <h1>Signup</h1>
-        <form action="/" onsubmit="signup(); return false;">
-            <label for="username">Username</label>
-            <input type="text" name="username" id="susername"/>
-            <label for="password">Password</label>
-            <input type="password" name="password" id="spassword"/>
-            <input type="submit" value="Signup" />
-        </form>
+      <h3>Signup</h3>
+      <!-- <form action="/" onsubmit="signup(); return false;"> -->
+      <div id="signupindicator"><p>Signing you up now...<br />Please be patient, I am slow!</p></div>
+      <form action="/" onsubmit="signup(); return false;">
+        <label for="username">Username</label>
+        <input type="text" name="username" id="susername"/>
+        <label for="password">Password</label>
+        <input type="password" name="password" id="spassword"/>
+        <input type="submit" value="Signup" />
+      </form>
+      {{#if errorsignup}}
+	<p>
+	  8888888888888888888888888888888888888888888888888888898
+	</p>
+      {{/if}}
     </div>
   </main>
   <script src="/public/ajax.js"></script>

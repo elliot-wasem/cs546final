@@ -48,7 +48,7 @@ async function createUser(username, hashedPassword) {
     if (!hashedPassword) throw "must provide a password";
     if (typeof(username) != "string") throw "username must be a string!";
     if (typeof(hashedPassword) != "string") throw "password must be a string!";
-
+    console.log("\t*** valid parameters passed to createUser()");
     const userCollection = await users();
 
     const newUser = {
@@ -59,11 +59,20 @@ async function createUser(username, hashedPassword) {
 
     const doesUserExist = await userCollection.findOne({username: username});
 
-    if (doesUserExist !== null) throw `user with username ${username} exists already`;
+
+    if (doesUserExist !== null) {
+	console.log(`\t*** user with username ${username} exists already`);
+	throw `user with username ${username} exists already`;
+    }
+    console.log("\t*** user should be able to fine in createUser()");
 
     const insertInfo = await userCollection.insertOne(newUser);
 
-    if (await insertInfo.insertedCount === 0) throw "could not insert user into database";
+    if (insertInfo.insertedCount === 0) {
+	console.log("\t*** could not insert new user");
+	throw "could not insert user into database";
+    }
+    console.log("\t*** ready to return from createUser()");
 
     return await get(insertInfo.insertedId);
 }

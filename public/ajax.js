@@ -1,5 +1,5 @@
 function login(){
-
+    document.getElementById("loginindicator").style.visibility = "visible";
     var Request= new XMLHttpRequest();
     Request.open("POST", "/login", true);
     Request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -12,10 +12,10 @@ function login(){
     var un=document.getElementById("lusername").value;
     var pw=document.getElementById("lpassword").value;
     Request.send("username="+un+"&password="+pw);
-
 }
 
 function signup(){
+    document.getElementById("signupindicator").style.visibility = "visible";
     var Request= new XMLHttpRequest();
     Request.open("POST", "/signup", true);
     Request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");

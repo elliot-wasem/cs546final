@@ -45,8 +45,19 @@ const create = async function create(title, author, imageUrl, keywords) {
 const getAll = async function() {
     const bookCollection = await books();
 
-    const theBooks = await bookCollection.find({}).toArray();
+    const theBooks = await bookCollection.find({}).sort({title: 1}).toArray();
     return theBooks;
+};
+const get = async function(id) {
+    if (!id) throw "must provide an id to search for a book";
+    if (typeof(id) !== 'string') throw "id of book must be a string";
+    if (String(id).length != 24) throw "invalid id format for a book";
+    const bookCollection = await books();
+
+    const theBook = await bookCollection.findOne({_id: ObjectId(id)});
+    
+    console.log("in get, the book is " + theBook);
+    return theBook;
 };
 const getN = async function(numberToGet) {
     if (!numberToGet) throw "must provide a number";
@@ -56,9 +67,43 @@ const getN = async function(numberToGet) {
     const theBooks = await bookCollection.find({}).sort({author: 1}).limit(numberToGet).toArray();
     return theBooks;
 };
+const search = async function(searchTerm) {
+    if (!searchTerm) throw 'must provide a search term for which to search';
+    if (typeof(searchTerm) !== 'string') throw 'search term must be a string';
+
+    searchTerm = searchTerm.toLowerCase();
+
+    const bookCollection = await books();
+
+    const theBooks = await bookCollection.find({}).sort({title: 1}).toArray();
+
+    let resultBooks = [];
+
+    for (let i = 0; i < theBooks.length; i++) {
+	let title = theBooks[i].title;
+	let author = theBooks[i].author;
+	let keywords = theBooks[i].keywords;
+	if (title.toLowerCase().includes(searchTerm)) {
+	    resultBooks.push(theBooks[i]);
+	} else if (author.toLowerCase().includes(searchTerm)) {
+	    resultBooks.push(theBooks[i]);
+	} else {
+	    for (let j = 0; j < keywords.length; j++) {
+		if (keywords[j].toLowerCase().includes(searchTerm)) {
+		    resultBooks.push(theBooks[i]);
+		    break;
+		}
+	    }
+	}
+    }
+
+    return resultBooks;
+};
 
 module.exports = {
     create,
     getAll,
-    getN
+    getN,
+    get,
+    search
 };
