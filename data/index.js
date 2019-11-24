@@ -15,17 +15,17 @@ const convCsvToJson = async function convCsvToJson(filePath) {
 async function buildData() {
     const db = await connection();
 
-    // check if database is built
-    // try {
-    // 	await db.collection("books").drop();
-    // } catch (e) {}
-    // try {
-    // 	await db.collection("users").drop();
-    // } catch (e) {}
+
+    try {
+    	await db.collection("books").drop();
+    } catch (e) {}
+    try {
+    	await db.collection("users").drop();
+    } catch (e) {}
     try {
     	await db.collection("usersBooks").drop();
     } catch (e) {}
-    return;
+
     let allBookObjects = await convCsvToJson('./goodbooks-10k/books.csv');
     let bookTags = await convCsvToJson('./goodbooks-10k/book_tags.csv');
     let tags = await convCsvToJson('./goodbooks-10k/tags.csv');
