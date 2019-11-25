@@ -1,13 +1,13 @@
 const bcrypt = require("bcryptjs");
 
 const homeRoute = require("./home");
-const wishRoute = require("./wish");
+const toReadRoute = require("./toread");
 const completedRoute = require("./completed");
 const detailsRoute = require("./details");
 const searchRoute = require("./search");
 
 const thebooks = require("../data/books");
-
+const userBooks = require("../data/usersBooks");
 
 const userData = require("../data/users.js");
 
@@ -27,7 +27,7 @@ let myLogger = function (req, res, next) {
 
 const constructorMethod = app => {
     app.use(myLogger);
-    // app.use("/wish", wishRoute);
+    app.use("/toread", toReadRoute);
     // app.use("/completed", completedRoute);
     // app.use("/details", detailsRoute);
     app.post("/search", async (request, result) => {
@@ -46,6 +46,23 @@ const constructorMethod = app => {
 	}
     });
 
+    /*
+    app.get("/toread", async (request, result) => {
+        console.log("whyyy");
+        if (request.session.currentUser) {
+            console.log("here")
+            try {
+            let books = await userBooks.getAllToRead();
+            result.render("pages/toread", {books});
+            } catch (e) {
+            result.redirect("/");
+            }
+            
+        } else {
+            result.redirect("/login");
+        }
+    });*/
+
     app.get("/book/:book_id", async (request, result) => {
 	console.log("we doing shit: book_id: " + request.params.book_id);
 	if (request.session.currentUser) {
@@ -61,6 +78,7 @@ const constructorMethod = app => {
             result.redirect("/login");
 	}
     });
+
     app.get('/login', function(request, response) {
         if (request.session.currentUser == null) {
             response.render("pages/login");

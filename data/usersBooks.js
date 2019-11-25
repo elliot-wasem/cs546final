@@ -203,3 +203,23 @@ const updateNotes = async function(userId, bookId, notes) {
     if (updatedInfo.modifiedCount === 0) throw "could not update entry";
     return await usersBooksCollection.findOne({userId: userId, bookId: bookId});
 };
+
+const getAllToRead = async function() {
+    const usersBooks = await usersBooks();
+
+    const theBooks = await usersBooks.find({}).sort({title: 1}).toArray();
+
+    //need to do a check for the completed field to be false
+
+    return theBooks;
+};
+
+
+module.exports = {
+    create,
+    remove,
+    read,
+    updateCompleted,
+    updateNotes,
+    getAllToRead
+};

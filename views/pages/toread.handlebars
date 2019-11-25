@@ -1,0 +1,28 @@
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="/public/stylesheet.css">
+    <title>Book Database</title>
+    <nav>
+    <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/logout">Logout</a></li>
+    <li><a href="/toread">To-Read Books</a></li>
+    </ul>
+    </nav>
+</head>
+<body>
+    <main>
+        <table>
+	        <tr>
+	            <th>Title</th>
+	            <th>Author</th>
+	        </tr>
+	        {{#each books}}
+	         <tr>
+	            <td><a href="/book/{{_id}}" alt="{{_id}}">{{title}}</a></td>
+	            <td>{{author}}</td>
+	        </tr>
+	        {{/each}}
+	    </table>
+    </main>
+</body>
