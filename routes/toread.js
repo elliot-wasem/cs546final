@@ -3,7 +3,7 @@ const router = express.Router();
 const data = require("../data");
 const userBooks = data.usersBooks;
 
-router.get("/", async (req, res) => {
+router.get("/", async (request, result) => {
     console.log("testinggg");
     if (request.session.currentUser) {
         console.log("here");

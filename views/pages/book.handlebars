@@ -15,6 +15,14 @@
     <h1>{{book.title}}</h1>
     <h2>{{book.author}}</h2>
     <img src={{book.imageUrl}} alt="Book"><br/>
-    <button id="add">Add to Books to Read</button>
-    <button id="complete">Add to Completed</button>
+    {{#if toRead}}<p>This book is in your "To Read" list.</p>{{/if}}
+    {{#if completed}}<p>This book is in your "Completed" list</p>{{/if}}
+    <form action="/addToRead" method="post">
+      <input type="hidden" name="book_id" value="{{book._id}}" />
+      <input type="submit" value="Add to Books to Read" {{#if toRead}}disabled{{/if}} />
+    </form>
+    <form action="/addCompleted" method="post">
+      <input type="hidden" name="book_id" value="{{book._id}}" />
+      <input type="submit" value="Add to Completed" {{#if completed}}disabled{{/if}} />
+    </form>
   </main>

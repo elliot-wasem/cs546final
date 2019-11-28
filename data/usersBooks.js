@@ -2,11 +2,19 @@ const mongoCollections = require("./collections");
 const usersBooks = mongoCollections.usersBooks;
 const ObjectId = require('mongodb').ObjectID;
 
+const get = async function get(userId, bookId) {
+    const usersBooksCollection = await usersBooks();
+
+    const info = usersBooksCollection.findOne({userId, bookId});
+
+    return info;
+}
+
 const create = async function create(userId, bookId, completedBool, notes) {
-    if (!userId && !bookId && !completedBool && !notes) {
+    if (userId == null && bookId == null && completedBool == null && notes == null) {
         throw new Error('Error: You must provide a userId, bookId, completedBool, notes.');
     }
-    if (!userId || !bookId || !completedBool || !notes) {
+    if (userId == null || !bookId == null || completedBool == null || notes == null) {
         throw new Error('Error: One or more arguments missing.');
     }
     if (typeof userId !== 'string') {
@@ -25,35 +33,36 @@ const create = async function create(userId, bookId, completedBool, notes) {
     if (String(userId).length != 24) {
         throw new Error('Error: Invalid userId');
     }
-    if (String(id).length != 24) {
+    if (String(bookId).length != 24) {
         throw new Error("Error: Invalid bookId");
     }
 
     const usersBooksCollection = await usersBooks();
 
     // Verify that userId/bookId combo does not already exist in the collection
-    for (i = 0; i < usersBooksCollection.length; i++) {
-        if ((ObjectId(userId) === ObjectId(usersBooksCollection[i].userId)) && (ObjectId(bookId) === ObjectId(usersBooksCollection[i].bookId))) {
-            throw new Error('Error: Attempt to insert duplicate book for the given user');
-        }
+    if (await get(userId, bookId) !== null) {
+        throw new Error('Error: Attempt to insert duplicate book for the given user');
     }
+    // for (i = 0; i < usersBooksCollection.length; i++) {
+    //     if ((ObjectId(userId) === ObjectId(usersBooksCollection[i].userId)) && (ObjectId(bookId) === ObjectId(usersBooksCollection[i].bookId))) {
+    //         throw new Error('Error: Attempt to insert duplicate book for the given user');
+    //     }
+    // }
 
-    let newBook = {
+    let newEntry = {
         userId: userId,
         bookId: bookId,
         completedBool: completedBool,
         notes: notes
     };
 
-    const insertInfo = await usersBooksCollection.insertOne(newBook);
+    const insertInfo = await usersBooksCollection.insertOne(newEntry);
     if (insertInfo.insertedCount === 0) {
         throw new Error('Error: Could not create book');
     }
-
-    const newId = insertInfo.insertedId;
-
-    const book = await this.get(String(newId));
-    return book;
+    
+    const entry = await get(userId, bookId);
+    return entry;
 };
 
 const remove = async function remove(userId, bookId) {
@@ -216,6 +225,7 @@ const getAllToRead = async function() {
 
 
 module.exports = {
+    get,
     create,
     remove,
     read,

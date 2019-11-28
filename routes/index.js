@@ -11,7 +11,7 @@ const userBooks = require("../data/usersBooks");
 
 const userData = require("../data/users.js");
 
-const saltRounds = 16;
+const saltRounds = 2;
 
 let myLogger = function (req, res, next) {
     const current_time = new Date().toUTCString();
@@ -64,19 +64,82 @@ const constructorMethod = app => {
     });*/
 
     app.get("/book/:book_id", async (request, result) => {
-	console.log("we doing shit: book_id: " + request.params.book_id);
-	if (request.session.currentUser) {
-	    console.log("we are authenticated");
-	    try {
-		const book = await thebooks.get(request.params.book_id);
-		console.log("book: " + book);
-		result.render("pages/book", {book});
-	    } catch (e) {
-		console.log("for fucks sake: " + e);
-	    }
-	} else {
-            result.redirect("/login");
-	}
+        console.log("we doing shit: book_id: " + request.params.book_id);
+        if (request.session.currentUser) {
+            console.log("we are authenticated");
+            try {
+            const book = await thebooks.get(request.params.book_id);
+            const userBook = await userBooks.get(request.session.currentUser, request.params.book_id);
+            var completed = false
+            var toRead = false;
+            if (userBook !== null) {
+                if (userBook.completed) {
+                    completed = true;
+                }
+                else {
+                    toRead = true;
+                }
+            }
+            // console.log("book: ", book);
+            result.render("pages/book", {book, completed, toRead});
+            } catch (e) {
+            console.log("for fucks sake: " + e);
+            }
+        } else {
+                result.redirect("/login");
+        }
+    });
+
+    app.post("/addToRead", async (req, res, next) => {
+        let bookId = req.body.book_id;
+        console.log(bookId);
+
+        if (req.session.currentUser) {
+            const userBook = await userBooks.get(req.session.currentUser, req.body.book_id);
+            if (userBook == null) {
+                try {
+                    let insertedBook = await userBooks.create(req.session.currentUser, bookId, false, "");
+                    console.log("inserted", insertedBook);
+                } catch (e) {
+                    console.log(e);
+                }
+            } else {
+                try {
+                    let updatedBook = await userBooks.updateCompleted(req.session.currentUser, bookId, false);
+                    console.log("updated", updatedBook);
+                } catch(e) {
+                    console.log(e);
+                }
+            }
+        }
+
+        res.redirect(`/book/${bookId}`);
+    });
+        
+    app.post("/addCompleted", async (req, res, next) => {
+        let bookId = req.body.book_id;
+        console.log(bookId);
+        
+        if (req.session.currentUser) {
+            const userBook = await userBooks.get(req.session.currentUser, req.body.book_id);
+            if (userBook == null) {
+                try {
+                    let insertedBook = await userBooks.create(req.session.currentUser, bookId, true, "");
+                    console.log("inserted", insertedBook);
+                } catch (e) {
+                    console.log(e)
+                }
+            } else {
+                try {
+                    let updatedBook = await userBooks.updateCompleted(req.session.currentUser, bookId, true);
+                    console.log("updated", updatedBook);
+                } catch(e) {
+                    console.log(e);
+                }
+            }
+        }
+
+        res.redirect(`/book/${bookId}`);
     });
 
     app.get('/login', function(request, response) {
@@ -91,7 +154,7 @@ const constructorMethod = app => {
 	const username = request.body.username;
 	const passwd = request.body.password;
 	try {
-	    await userData.createUser(username, await bcrypt.hash(passwd, 16));
+	    await userData.createUser(username, await bcrypt.hash(passwd, saltRounds));
 	    console.log("woohoo");
 	    response.redirect("/login");
 	} catch (e) {
@@ -109,11 +172,11 @@ const constructorMethod = app => {
         console.log(user);
         if (user) {
 	    console.log("ififififififif");
-	    let generatedPassword = await bcrypt.hash(passwd, 16);
+	    let generatedPassword = await bcrypt.hash(passwd, saltRounds);
             const authenticate = await bcrypt.compare(passwd, user.password);
             if (authenticate) {
 		console.log("we in boyzzzzzzzzzz");
-                request.session.currentUser = user.username;
+                request.session.currentUser = user._id;
                 response.redirect('/');
             } else {
 		console.log("ifnopeifnopeifnopeifnopeifnopeifnope");
