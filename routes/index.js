@@ -11,7 +11,7 @@ const userBooks = require("../data/usersBooks");
 
 const userData = require("../data/users.js");
 
-const saltRounds = 2;
+const saltRounds = 8;
 
 let myLogger = function (req, res, next) {
     const current_time = new Date().toUTCString();
