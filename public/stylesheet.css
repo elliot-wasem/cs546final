@@ -4,6 +4,11 @@ body {
     background: #c7e5f1;
     color: #0f1213;
     font-family: 'Poppins', sans-serif;
+    padding-top: 40px;
+}
+
+h1 {
+    font-size: 42px;
 }
 
 #Login{
@@ -24,8 +29,40 @@ tr, th, td, table {
     border: 1px solid black;
     rules: row;
     align-items: left;
+    margin-top: 30px;
 }
 
 #loginindicator, #signupindicator {
     visibility: hidden;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgb(66, 74, 78);
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+  
+li {
+    float: left;
+}
+  
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 10px 16px;
+    text-decoration: none; 
+}
+  
+li a:hover {
+    background-color: #111;
+}
+  
+.active {
+    background-color: rgb(165, 59, 59);
 }
