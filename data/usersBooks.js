@@ -1,5 +1,9 @@
 const mongoCollections = require("./collections");
 const usersBooks = mongoCollections.usersBooks;
+const books = mongoCollections.books;
+const users = mongoCollections.users;
+const usersjs = require("./users");
+
 const ObjectId = require('mongodb').ObjectID;
 
 const get = async function get(userId, bookId) {
@@ -160,7 +164,7 @@ const updateCompleted = async function(userId, bookId, completed) {
     const newEntry = {
 	userId: userId,
 	bookId: bookId,
-	completed: completed,
+	completedBool: completed,
 	notes: await lookup.notes
     };
 
@@ -204,7 +208,7 @@ const updateNotes = async function(userId, bookId, notes) {
     const newEntry = {
 	userId: userId,
 	bookId: bookId,
-	completed: await lookup.completed,
+	completedBool: await lookup.completed,
 	notes: notes
     };
 
@@ -214,13 +218,75 @@ const updateNotes = async function(userId, bookId, notes) {
 };
 
 const getAllToRead = async function() {
-    const usersBooks = await usersBooks();
+    const usersBookCollection = await usersBooks();
+    const userCollection = await users();
+    const bookCollection = await books();
 
-    const theBooks = await usersBooks.find({}).sort({title: 1}).toArray();
+    let userToReadList = [];
+    const theBooks = await usersBookCollection.find({}).sort({title: 1}).toArray();
+    for (let i = 0; i < theBooks.length; i++) {
+        console.log("gonna iterate now");
+        //*******//
+        //if more than 1 user in db check if it's the current user somehow
+        let id = theBooks[i].userId;
+        const user = await userCollection.findOne({ _id: ObjectId(id) });
+        if (user === null) throw `No user with id ${String(id)}`;
 
-    //need to do a check for the completed field to be false
+        let bookid = theBooks[i].bookId;
+        const book = await bookCollection.findOne({ _id: ObjectId(bookid) });
+        if (book === null) throw `No book with id ${String(bookid)}`;
+        
+        if(theBooks[i].completedBool === false){
+            console.log("book count");
+            let newbook = {
+                bookid: bookid,
+                title: book.title,
+                author: book.author,
+            };
+            userToReadList.push(newbook);
+        }
 
-    return theBooks;
+    }
+    for(let j=0; j<userToReadList.length; j++){
+        console.log("hello book: " + userToReadList[j].title);
+    }
+    return userToReadList;
+};
+
+const getAllCompleted = async function() {
+    const usersBookCollection = await usersBooks();
+    const userCollection = await users();
+    const bookCollection = await books();
+
+    let userCompletedList = [];
+    const theBooks = await usersBookCollection.find({}).sort({title: 1}).toArray();
+    for (let i = 0; i < theBooks.length; i++) {
+        console.log("gonna iterate now");
+        //*******//
+        //if more than 1 user in db check if it's the current user somehow
+        let id = theBooks[i].userId;
+        const user = await userCollection.findOne({ _id: ObjectId(id) });
+        if (user === null) throw `No user with id ${String(id)}`;
+
+        let bookid = theBooks[i].bookId;
+        const book = await bookCollection.findOne({ _id: ObjectId(bookid) });
+        if (book === null) throw `No book with id ${String(bookid)}`;
+        
+        if(theBooks[i].completedBool === true){
+            console.log("book count");
+            let entry = {
+                bookid: bookid,
+                title: book.title,
+                author: book.author,
+            };
+            userCompletedList.push(entry);
+        }
+
+    }
+    for(let j=0; j<userCompletedList.length; j++){
+        console.log("hello book: " + userCompletedList[j].title);
+    }
+    return userCompletedList;
 };
 
 
@@ -231,5 +297,6 @@ module.exports = {
     read,
     updateCompleted,
     updateNotes,
-    getAllToRead
+    getAllToRead,
+    getAllCompleted
 };

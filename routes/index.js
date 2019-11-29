@@ -28,7 +28,7 @@ let myLogger = function (req, res, next) {
 const constructorMethod = app => {
     app.use(myLogger);
     app.use("/toread", toReadRoute);
-    // app.use("/completed", completedRoute);
+    app.use("/completed", completedRoute);
     // app.use("/details", detailsRoute);
     app.post("/search", async (request, result) => {
 	if (request.session.currentUser) {
