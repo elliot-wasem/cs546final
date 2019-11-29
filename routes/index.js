@@ -73,7 +73,7 @@ const constructorMethod = app => {
             var completed = false
             var toRead = false;
             if (userBook !== null) {
-                if (userBook.completed) {
+                if (userBook.completedBool) {
                     completed = true;
                 }
                 else {
