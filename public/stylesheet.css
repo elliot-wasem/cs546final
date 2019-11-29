@@ -26,10 +26,22 @@ input[type="text"],input[type="password"]{
     width:300px;
 }
 tr, th, td, table {
+    border-collapse: collapse;
     border: 1px solid black;
     rules: row;
     align-items: left;
     margin-top: 30px;
+}
+th {
+    font-size: 20px;
+}
+td {
+    padding: 10px;
+    text-align: left;
+}
+table {
+    margin-left: 25px;
+    margin-right: 25px;
 }
 
 #loginindicator, #signupindicator {
