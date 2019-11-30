@@ -5,14 +5,15 @@
     <nav>
     <ul>
     <li><a href="/">Home</a></li>
-    <li><a href="/logout">Logout</a></li>
-    <li><a href="/toread">To-Read Books</a></li>
+    <li><a class="active" href="/toread">To-Read Books</a></li>
     <li><a href="/completed">Completed Books</a></li>
+    <li style="float:right"><a href="/logout">Logout</a></li>
     </ul>
     </nav>
 </head>
 <body>
     <main>
+        <h2>Here are all the books you want to read:</h2>
         <table>
 	        <tr>
 	            <th>Title</th>
@@ -21,8 +22,8 @@
 	        </tr>
 	        {{#each books}}
 	         <tr>
-	            <td><a href="/book/{{bookid}}" alt="{{bookid}}">{{title}}</a></td>
-	            <td>{{author}}</td>
+	            <td width="50%"><a href="/book/{{bookid}}" alt="{{bookid}}">{{title}}</a></td>
+	            <td width="50%">{{author}}</td>
                 <td id="{{{bookid}}}" >
                     <p>{{notes}}</p> 
                     <textarea id="notes" name="Notes"></textarea>
