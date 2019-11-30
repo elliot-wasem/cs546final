@@ -165,7 +165,7 @@ const updateCompleted = async function(userId, bookId, completed) {
 	userId: userId,
 	bookId: bookId,
 	completedBool: completed,
-	notes: await lookup.notes
+	notes: lookup.notes
     };
 
     const updatedInfo = await usersBooksCollection.replaceOne({userId: userId, bookId: bookId}, newEntry);
@@ -180,8 +180,9 @@ const updateNotes = async function(userId, bookId, notes) {
     if (!bookId) {
         throw new Error('Error: You must provide a book id to search for.');
     }
-    if (!notes) {
-        throw new Error('Error: You must provide a book id to search for.');
+    //Check if notes is undefined, if it is emptystring then the page should display no notes for the book.
+    if (notes===undefined) {
+        throw new Error('Error: You must provide notes.');
     }
     if (!(typeof userId === 'string')) {
         throw new Error('Error: userId must be of type string');
@@ -208,7 +209,7 @@ const updateNotes = async function(userId, bookId, notes) {
     const newEntry = {
 	userId: userId,
 	bookId: bookId,
-	completedBool: await lookup.completed,
+	completedBool: lookup.completedBool,
 	notes: notes
     };
 
@@ -242,6 +243,7 @@ const getAllToRead = async function() {
                 bookid: bookid,
                 title: book.title,
                 author: book.author,
+                notes: theBooks[i].notes,
             };
             userToReadList.push(newbook);
         }
@@ -278,6 +280,7 @@ const getAllCompleted = async function() {
                 bookid: bookid,
                 title: book.title,
                 author: book.author,
+                notes: theBooks[i].notes,
             };
             userCompletedList.push(entry);
         }

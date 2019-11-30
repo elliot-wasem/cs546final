@@ -29,6 +29,31 @@ function signup(){
     Request.send("username="+un+"&password="+pw);
 }
 
+function annotate(id,type){
+  var Request= new XMLHttpRequest();
+  if(type==1){
+  Request.open("POST", "/toread/"+id, true);
+  }
+  else{
+    Request.open("POST", "/completed/"+id, true);
+  }
+  Request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  const note=document.getElementById(id).getElementsByTagName("textarea")[0];
+
+  if(note.value==""){
+    note.value="";
+  }
+  Request.onreadystatechange = function() {
+      if (this.readyState == 4) {
+        note.value=""
+        document.getElementById(id).getElementsByTagName("P")[0].innerHTML=this.responseText;
+
+      }
+    };
+
+  Request.send("notes="+note.value);
+
+}
 
 
 

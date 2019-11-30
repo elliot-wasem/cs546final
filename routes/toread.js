@@ -47,6 +47,20 @@ router.get("/", async (request, result) => {
     
 });
 
+router.post("/:id",async (request, result) =>{
+    try{
+        if(!request.body.notes){
+            request.body.notes="";
+        }
+        await userBooks.updateNotes(request.session.currentUser,request.params.id,request.body.notes);
+        result.status(200).send(request.body.notes);
+    }
+    catch(e){
+        result.status(404).send("failed")
+    }
+
+});
+
 module.exports = router;
   
 

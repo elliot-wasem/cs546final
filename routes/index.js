@@ -64,7 +64,7 @@ const constructorMethod = app => {
     });*/
 
     app.get("/book/:book_id", async (request, result) => {
-        console.log("we doing shit: book_id: " + request.params.book_id);
+        console.log("book_id: " + request.params.book_id);
         if (request.session.currentUser) {
             console.log("we are authenticated");
             try {
@@ -83,7 +83,7 @@ const constructorMethod = app => {
             // console.log("book: ", book);
             result.render("pages/book", {book, completed, toRead});
             } catch (e) {
-            console.log("for fucks sake: " + e);
+            console.log("bad: " + e);
             }
         } else {
                 result.redirect("/login");
@@ -158,7 +158,7 @@ const constructorMethod = app => {
 	    console.log("woohoo");
 	    response.redirect("/login");
 	} catch (e) {
-	    console.log("fuck");
+	    console.log("bad login");
 	    response.render("pages/login", {errorsignup: e});
 	    return;
 	}

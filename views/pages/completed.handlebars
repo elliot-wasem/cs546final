@@ -17,13 +17,22 @@
 	        <tr>
 	            <th>Title</th>
 	            <th>Author</th>
+                <th>Notes</th>
 	        </tr>
 	        {{#each books}}
 	         <tr>
 	            <td><a href="/book/{{bookid}}" alt="{{bookid}}">{{title}}</a></td>
 	            <td>{{author}}</td>
+                <td id="{{{bookid}}}" >
+                    <p>{{notes}}</p> 
+                    <textarea id="notes" name="Notes"></textarea>
+                    <form id="update" action="/completed/{{bookid}}" onsubmit="annotate(&quot;{{bookid}}&quot,2); return false;">
+                    <button type="submit" formmethod="POST"> Update Notes </button>
+                    </form>
+                </td>
 	        </tr>
 	        {{/each}}
 	    </table>
     </main>
+    <script src="/public/ajax.js"></script>
 </body>
