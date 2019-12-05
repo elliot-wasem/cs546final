@@ -18,7 +18,7 @@ let myLogger = function (req, res, next) {
     const method = req.method;
     const url = req.originalUrl;
     let auth = false;
-    if (req.session.username) {
+    if (req.session.currentUser) {
         auth = true;
     }
     console.log("[" + current_time + "]: " + method + " " + url + " Auth: " + auth);
