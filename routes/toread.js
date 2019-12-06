@@ -15,7 +15,7 @@ router.get("/", async (request, result) => {
         (userBooks?
             async ()=>{
             try {
-            let books = await userBooks.getAllToRead();
+            let books = await userBooks.getAllToRead(request);
             console.log("books: " + books);
             console.log(JSON.stringify(books, null, 2));
             for (let i=0; i<books.length; i++){

@@ -7,7 +7,7 @@ router.get("/", async (request, result) => {
         (userBooks?
             async ()=>{
             try {
-            let books = await userBooks.getAllCompleted();
+            let books = await userBooks.getAllCompleted(request);
             result.render("pages/completed", {books});
             } catch (e) {
             console.log(e)
