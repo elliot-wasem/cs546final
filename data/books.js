@@ -72,6 +72,23 @@ const search = async function(searchTerm) {
     if (typeof(searchTerm) !== 'string') throw 'search term must be a string';
 
     searchTerm = searchTerm.toLowerCase();
+    searchTermWordList = searchTerm.split(' ');
+    console.log('111111111111111111111111111111111111111111111111111');
+    console.log(searchTermWordList);
+    console.log('111111111111111111111111111111111111111111111111111');
+    searchTermWithDashes = '';
+    for (let i = 0; i < searchTermWordList.length; i++) {
+        if (i !== searchTermWordList.length - 1) {
+            searchTermWithDashes += searchTermWordList[i] + '-'
+        } else {
+            searchTermWithDashes += searchTermWordList [i];
+        }
+    }
+    console.log('==================================================');
+    console.log(searchTerm);
+    console.log(searchTermWithDashes);
+    console.log('==================================================');
+
 
     const bookCollection = await books();
 
@@ -89,7 +106,7 @@ const search = async function(searchTerm) {
 	    resultBooks.push(theBooks[i]);
 	} else {
 	    for (let j = 0; j < keywords.length; j++) {
-		if (keywords[j].toLowerCase().includes(searchTerm)) {
+		if (keywords[j].toLowerCase().includes(searchTerm) || keywords[j].toLowerCase().includes(searchTermWithDashes)) {
 		    resultBooks.push(theBooks[i]);
 		    break;
 		}

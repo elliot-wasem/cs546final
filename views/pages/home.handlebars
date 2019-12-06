@@ -23,6 +23,11 @@
       <input type="text" name="search" id="search"/>
       <input type="submit" value="search" />
     </form>
+
+  {{#if searchWord}}
+  <p>You searched for: {{searchWord}}</p>
+  {{/if}}
+
     <div id="BookList">
 	<table>
 	  <tr>
@@ -34,6 +39,8 @@
 	    <td width="50%"><a href="/book/{{_id}}" alt="{{_id}}">{{title}}</a></td>
 	    <td width="50%">{{author}}</td>
 	  </tr>
+    {{else}}
+      <p>No search results available.</p>
 	  {{/each}}
 	</table>
     </div> 

@@ -36,7 +36,7 @@ const constructorMethod = app => {
 
 	    try {
 		let searchResult = await thebooks.search(searchTerm);
-		result.render("pages/home", {books: searchResult});
+		result.render("pages/home", {books: searchResult, searchWord: searchTerm});
 	    } catch (e) {
 		result.redirect("/");
 	    }
