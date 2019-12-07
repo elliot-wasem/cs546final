@@ -46,23 +46,6 @@ const constructorMethod = app => {
 	}
     });
 
-    /*
-    app.get("/toread", async (request, result) => {
-        console.log("whyyy");
-        if (request.session.currentUser) {
-            console.log("here")
-            try {
-            let books = await userBooks.getAllToRead();
-            result.render("pages/toread", {books});
-            } catch (e) {
-            result.redirect("/");
-            }
-            
-        } else {
-            result.redirect("/login");
-        }
-    });*/
-
     app.get("/book/:book_id", async (request, result) => {
         console.log("book_id: " + request.params.book_id);
         if (request.session.currentUser) {
@@ -208,7 +191,18 @@ const constructorMethod = app => {
         request.session.currentUser = null;
         response.redirect('/login');
     });
+
     app.use("/", homeRoute);
+
+    // Was trying to make a 'Page not found' page for /anythingelse
+    //app.get('*', (req, res) => {
+    //     if (req.session.currentUser) {
+    //         res.redirect("pages/notfound");
+    //     } else {
+	//     res.redirect("/login");
+	//     }
+    // });
+
     app.all("*", function (req, res, next) {
         if (req.path == '/login' || req.path == '/logout') {
             return next();
@@ -220,6 +214,7 @@ const constructorMethod = app => {
             res.redirect("/login");
         }
     });
+    
 
 };
 
