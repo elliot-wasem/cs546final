@@ -13,6 +13,7 @@
 </head>
 <body>
     <main>
+        {{#if books}}
         <h2>Here are all the books you have completed:</h2>
         <table>
 	        <tr>
@@ -22,9 +23,9 @@
 	        </tr>
 	        {{#each books}}
 	         <tr>
-	            <td width="50%"><a href="/book/{{bookid}}" alt="{{bookid}}">{{title}}</a></td>
-	            <td width="50%">{{author}}</td>
-                <td id="{{{bookid}}}" >
+	            <td width="41%"><a href="/book/{{bookid}}" alt="{{bookid}}">{{title}}</a></td>
+	            <td width="41%">{{author}}</td>
+                <td width="18%" id="{{{bookid}}}" >
                     <p>{{notes}}</p> 
                     <textarea id="notes" name="Notes"></textarea>
                     <form id="update" action="/completed/{{bookid}}" onsubmit="annotate(&quot;{{bookid}}&quot,2); return false;">
@@ -34,6 +35,11 @@
 	        </tr>
 	        {{/each}}
 	    </table>
+        {{else}}
+        <br>
+        <br>
+        <h2>After you add a book to your Completed list, it will be displayed here</h2>
+        {{/if}}
     </main>
     <script src="/public/ajax.js"></script>
 </body>
