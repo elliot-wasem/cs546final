@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
 
 body {
-    background: #c7e5f1;
-    color: #0f1213;
+    background: #e8e8e8;
+    color: #587795;
     font-family: 'Poppins', sans-serif;
     padding-top: 40px;
 }
@@ -22,12 +22,9 @@ h1 {
     left:20%;
 }
 
-input[type="text"],input[type="password"]{
-    width:300px;
-}
 tr, th, td, table {
     border-collapse: collapse;
-    border: 1px solid black;
+    border: 1px solid #587795;
     rules: row;
     align-items: left;
     margin-top: 30px;
@@ -53,7 +50,7 @@ ul {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: rgb(66, 74, 78);
+    background-color: #aaaaaa;
     position: fixed;
     top: 0;
     width: 100%;
@@ -62,19 +59,98 @@ ul {
 li {
     float: left;
 }
-  
+
 li a {
     display: block;
-    color: white;
+    color: #587795;
     text-align: center;
     padding: 10px 16px;
     text-decoration: none; 
 }
   
 li a:hover {
-    background-color: #111;
+    background-color: #f4f4f4;
 }
   
 .active {
-    background-color: rgb(165, 59, 59);
+    background-color: #e8e8e8;
+}
+
+textarea {
+    padding: 5px 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 3px solid #aaaaaa;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+    font-family: 'Poppins', sans-serif;
+}
+
+textarea:focus {
+    border: 3px solid #587795;
+}
+
+input[type="text"],input[type="password"] {
+    width: 280px;
+    padding: 5px 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 3px solid #aaaaaa;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+    font-family: 'Poppins', sans-serif;
+}
+
+input[type="text"]:focus {
+    border: 3px solid #587795;
+}
+
+input[type="password"]:focus {
+    border: 3px solid #587795;
+}
+
+input[type="submit"] {
+    margin: 8px;
+    border: 3px solid #587795;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    padding: 5px 10px;
+    -webkit-transition-duration: 0.5s; /* Safari */
+    transition-duration: 0.5s;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #587795;
+  }
+
+input[type="submit"]:active {
+    background-color: #e8e8e8;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+button[type="submit"] {
+    margin: 8px;
+    border: 3px solid #587795;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    padding: 5px 10px;
+    -webkit-transition-duration: 0.5s; /* Safari */
+    transition-duration: 0.5s;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #587795;
+}
+
+button[type="submit"]:active {
+    background-color: #e8e8e8;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
 }
