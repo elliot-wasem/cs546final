@@ -1,0 +1,36 @@
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="/public/stylesheet.css">
+  <title>Login</title>
+</head>
+<body>
+  <header>
+  </header>
+  <main>
+    <h1>Welcome to our book thing</h1>
+    <div id="Login">
+      <h3>Login</h3>
+      <div id="loginindicator"><p>Loggin you in now...<br />Please be patient, I am slow!</p></div>
+        <form action="/" onsubmit="login(); return false;">
+          <label for="username">Username</label>
+          <input type="text" name="username" id="lusername" placeholder="Username"/>
+          <label for="password">Password</label>
+          <input type="password" name="password" id="lpassword" placeholder="Password"/>
+          <input type="submit" value="Login"/>
+        </form>
+	Username not found
+    </div>
+    <div id="Signup">
+      <h3>Signup</h3>
+      <div id="signupindicator"><p>Signing you up now...<br />Please be patient, I am slow!</p></div>
+      <form action="/" onsubmit="signup(); signup(); return false;">
+        <label for="username">Username</label>
+        <input type="text" name="username" id="susername" placeholder="Username"/>
+        <label for="password">Password</label>
+        <input type="password" name="password" id="spassword" placeholder="Password"/>
+        <input type="submit" value="Signup" />
+      </form>
+    </div>
+  </main>
+  <script src="/public/ajax.js"></script>
+</body>

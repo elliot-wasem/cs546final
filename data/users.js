@@ -20,7 +20,9 @@ async function getByUsername(username) {
 
     const userCollection = await users();
 
+    console.log("look at me I'm a unicorn");
     const user = await userCollection.findOne({ username: username });
+    console.log("this unicorn looks like: " + user);
     if (user === null) throw `No user with username ${username}`;
 
     return user;

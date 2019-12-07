@@ -51,25 +51,26 @@ const constructorMethod = app => {
         if (request.session.currentUser) {
             console.log("we are authenticated");
             try {
-            const book = await thebooks.get(request.params.book_id);
-            const userBook = await userBooks.get(request.session.currentUser, request.params.book_id);
-            var completed = false
-            var toRead = false;
-            if (userBook !== null) {
-                if (userBook.completedBool) {
-                    completed = true;
-                }
-                else {
-                    toRead = true;
-                }
-            }
-            // console.log("book: ", book);
-            result.render("pages/book", {book, completed, toRead});
+		const book = await thebooks.get(request.params.book_id);
+		const userBook = await userBooks.get(request.session.currentUser, request.params.book_id);
+		var completed = false;
+		var toRead = false;
+		if (userBook !== null) {
+                    if (userBook.completedBool) {
+			completed = true;
+                    }
+                    else {
+			toRead = true;
+                    }
+		}
+		// console.log("book: ", book);
+		result.render("pages/book", {book, completed, toRead});
             } catch (e) {
-            console.log("bad: " + e);
+		console.log("bad: " + e);
+		result.render("pages/notfound", {});
             }
         } else {
-                result.redirect("/login");
+            result.redirect("/login");
         }
     });
 
@@ -110,7 +111,7 @@ const constructorMethod = app => {
                     let insertedBook = await userBooks.create(req.session.currentUser, bookId, true, "");
                     console.log("inserted", insertedBook);
                 } catch (e) {
-                    console.log(e)
+                    console.log(e);
                 }
             } else {
                 try {
@@ -125,9 +126,13 @@ const constructorMethod = app => {
         res.redirect(`/book/${bookId}`);
     });
 
+    app.get('/badlogin', function(request, response) {
+	response.render("pages/badlogin", {});
+	return;
+    });
     app.get('/login', function(request, response) {
         if (request.session.currentUser == null) {
-            response.render("pages/login");
+            response.render("pages/login", {});
         }
         else {
             response.redirect("/");
@@ -141,17 +146,24 @@ const constructorMethod = app => {
 	    console.log("woohoo");
 	    response.redirect("/login");
 	} catch (e) {
-	    console.log("bad login");
-	    response.render("pages/login", {errorsignup: e});
+	    console.log("bad signup: " + e);
+	    response.send("badsignup");
 	    return;
 	}
+	return;
     });
 
     app.post('/login', async function(request, response) {
-	console.log("ffffffffffffffffffffffffffffffff");
         const username = request.body.username;
         const passwd = request.body.password;
-        const user = await userData.getByUsername(username);
+	let user = undefined;
+        try {
+	    user = await userData.getByUsername(username);
+	} catch (e) {
+	    console.log("itsy bitsy spider: " + e);
+            response.send("badlogin");
+	    return;
+	}
         console.log(user);
         if (user) {
 	    console.log("ififififififif");
@@ -163,15 +175,17 @@ const constructorMethod = app => {
                 response.redirect('/');
             } else {
 		console.log("ifnopeifnopeifnopeifnopeifnopeifnope");
-                response.status(401).render('pages/login', {
+                response.render('pages/login', {
                     errorlogin: "401 - You did not provide a valid username and/or password."
                 });
+		return;
             }
         } else {
 	    console.log("nopenopenopenopenopenopenopenope");
-            response.status(401).render('pages/login', {
-                error: "401 - You did not provide a valid username."
+            response.render('pages/login', {
+                errorlogin: "401 - You did not provide a valid username."
             });
+	    return;
         }
     });
 
@@ -182,7 +196,7 @@ const constructorMethod = app => {
 
         const user = await userData.createUser(username, hashedPassword);
 
-        response.status(201).render('pages/login', {
+        response.render('pages/login', {
             message: `201 - User ${user} created successfully.`
         });
     });
@@ -212,7 +226,8 @@ const constructorMethod = app => {
 
     app.all("*", function (req, res, next) {
         if (req.path == '/login' || req.path == '/logout') {
-            return next();
+	    next();
+            return;
         }
 
         if (req.session.currentUser) {
@@ -220,9 +235,14 @@ const constructorMethod = app => {
         } else {
             res.redirect("/login");
         }
-    });
-    
 
+	return;
+    });
+
+    app.get("*", function (req, res, next) {
+	res.render("pages/notfound");
+	return;
+    });    
 };
 
 module.exports = constructorMethod;

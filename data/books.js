@@ -73,13 +73,11 @@ const search = async function(searchTerm) {
 
     searchTerm = searchTerm.toLowerCase();
     searchTermWordList = searchTerm.split(' ');
-    console.log('111111111111111111111111111111111111111111111111111');
     console.log(searchTermWordList);
-    console.log('111111111111111111111111111111111111111111111111111');
     searchTermWithDashes = '';
     for (let i = 0; i < searchTermWordList.length; i++) {
         if (i !== searchTermWordList.length - 1) {
-            searchTermWithDashes += searchTermWordList[i] + '-'
+            searchTermWithDashes += searchTermWordList[i] + '-';
         } else {
             searchTermWithDashes += searchTermWordList [i];
         }

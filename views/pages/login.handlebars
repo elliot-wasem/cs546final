@@ -10,8 +10,6 @@
     <h1>Welcome to our book thing</h1>
     <div id="Login">
       <h3>Login</h3>
-      <div id="loginindicator"><p>Loggin you in now...<br />Please be patient, I am slow!</p></div>
-      <!-- <form action="/" onsubmit="login(); return false;"> -->
         <form action="/" onsubmit="login(); return false;">
           <label for="username">Username</label>
           <input type="text" name="username" id="lusername" placeholder="Username"/>
@@ -19,12 +17,10 @@
           <input type="password" name="password" id="lpassword" placeholder="Password"/>
           <input type="submit" value="Login"/>
         </form>
-      {{errorlogin}}
+	<p id="failedlogin">Bad username or password.</p>
     </div>
     <div id="Signup">
       <h3>Signup</h3>
-      <!-- <form action="/" onsubmit="signup(); return false;"> -->
-      <div id="signupindicator"><p>Signing you up now...<br />Please be patient, I am slow!</p></div>
       <form action="/" onsubmit="signup(); signup(); return false;">
         <label for="username">Username</label>
         <input type="text" name="username" id="susername" placeholder="Username"/>
@@ -32,11 +28,7 @@
         <input type="password" name="password" id="spassword" placeholder="Password"/>
         <input type="submit" value="Signup" />
       </form>
-      {{#if errorsignup}}
-	<p>
-	  8888888888888888888888888888888888888888888888888888898
-	</p>
-      {{/if}}
+      <p id="failedsignup">Username already exists</p>
     </div>
   </main>
   <script src="/public/ajax.js"></script>
