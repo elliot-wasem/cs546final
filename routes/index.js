@@ -195,9 +195,16 @@ const constructorMethod = app => {
     app.use("/", homeRoute);
 
     // Was trying to make a 'Page not found' page for /anythingelse
-    //app.get('*', (req, res) => {
+    // app.get('*', function (req, res) {
     //     if (req.session.currentUser) {
-    //         res.redirect("pages/notfound");
+    //         res.redirect("/notfound");
+    //     } else {
+	//     res.redirect("/login");
+	//     }
+    // });
+    // app.get('/notfound', function(req, res) {
+    //     if (req.session.currentUser) {
+    //         res.render("pages/notfound");
     //     } else {
 	//     res.redirect("/login");
 	//     }
