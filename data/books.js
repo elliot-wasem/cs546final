@@ -58,6 +58,67 @@ const get = async function(id) {
     
     return theBook;
 };
+const getAllByAuthor = async function(authorName) {
+    if (!authorName) throw "must provide an author name to search for a book";
+    if (typeof(authorName) !== 'string') throw "name of author must be a string";
+    const bookCollection = await books();
+
+    const booksByAuthor = await bookCollection.find({author: authorName}).toArray();
+    
+    return booksByAuthor;
+};
+
+const getAllByGenre = async function(genre) {
+    if (!genre) throw "must provide genre to search for a book";
+    if (typeof(genre) !== 'string') throw "genre must be a string";
+    
+    const bookCollection = await books();
+
+    const theBooks = await bookCollection.find({}).sort({title: 1}).toArray();
+
+    let booksByGenre = [];
+
+    for (let i = 0; i < theBooks.length; i++) {
+	let keywords = theBooks[i].keywords;
+        for (let j = 0; j < keywords.length; j++) {
+            if (keywords[j].toLowerCase().includes(genre)) {
+                booksByGenre.push(theBooks[i]);
+                break;
+            }
+	    }
+    }
+    
+    booksByGenre = booksByGenre.sort();
+
+    return booksByGenre;
+};
+
+const getAllAuthors = async function() {
+    const bookCollection = await books();
+
+    const theBooks = await bookCollection.find({}).sort({title: 1}).toArray();
+    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+    console.log(theBooks);
+    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+    let allAuthors = [];
+
+    for (let i = 0; i < theBooks.length; i++) {
+        console.log(theBooks[i].author);
+        if (!allAuthors.includes(theBooks[i].author)) {
+            allAuthors.push(theBooks[i].author);
+        }
+    }
+
+    allAuthors.sort();
+    
+    return allAuthors;
+};
+
+const getAllGenres = async function() {
+    allGenres = ["Biography", "Fantasy", "Fiction","Historical Fiction", "Non-fiction", "Novel", "Science Fiction", "Thriller"];
+    return allGenres;
+};
+
 const getN = async function(numberToGet) {
     if (!numberToGet) throw "must provide a number";
     if (typeof(numberToGet) != 'number') throw `must provide a number. ${numbertoget} is not a number you silly goose`;
@@ -111,6 +172,10 @@ const search = async function(searchTerm) {
 module.exports = {
     create,
     getAll,
+    getAllByAuthor,
+    getAllByGenre,
+    getAllAuthors,
+    getAllGenres,
     getN,
     get,
     search

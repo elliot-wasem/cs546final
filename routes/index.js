@@ -3,6 +3,10 @@ const bcrypt = require("bcryptjs");
 const homeRoute = require("./home");
 const toReadRoute = require("./toread");
 const completedRoute = require("./completed");
+const byAuthorRoute = require("./byauthor");
+const byGenreRoute = require("./bygenre");
+const allAuthorsRoute = require("./allauthors");
+const allGenresRoute = require("./allgenres");
 
 const thebooks = require("../data/books");
 const userBooks = require("../data/usersBooks");
@@ -27,6 +31,10 @@ const constructorMethod = app => {
     app.use(myLogger);
     app.use("/toread", toReadRoute);
     app.use("/completed", completedRoute);
+    app.use("/allauthors", allAuthorsRoute);
+    app.use("/allgenres", allGenresRoute);
+    app.use("/byauthor", byAuthorRoute);
+    app.use("/bygenre", byGenreRoute);
     app.post("/search", async (request, result) => {
 	if (request.session.currentUser) {
 	    let searchTerm = request.body.search;
