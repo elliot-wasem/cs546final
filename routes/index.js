@@ -3,8 +3,6 @@ const bcrypt = require("bcryptjs");
 const homeRoute = require("./home");
 const toReadRoute = require("./toread");
 const completedRoute = require("./completed");
-const detailsRoute = require("./details");
-const searchRoute = require("./search");
 
 const thebooks = require("../data/books");
 const userBooks = require("../data/usersBooks");
@@ -29,7 +27,6 @@ const constructorMethod = app => {
     app.use(myLogger);
     app.use("/toread", toReadRoute);
     app.use("/completed", completedRoute);
-    // app.use("/details", detailsRoute);
     app.post("/search", async (request, result) => {
 	if (request.session.currentUser) {
 	    let searchTerm = request.body.search;
@@ -47,9 +44,7 @@ const constructorMethod = app => {
     });
 
     app.get("/book/:book_id", async (request, result) => {
-        console.log("book_id: " + request.params.book_id);
         if (request.session.currentUser) {
-            console.log("we are authenticated");
             try {
 		const book = await thebooks.get(request.params.book_id);
 		const userBook = await userBooks.get(request.session.currentUser, request.params.book_id);
@@ -63,10 +58,8 @@ const constructorMethod = app => {
 			toRead = true;
                     }
 		}
-		// console.log("book: ", book);
 		result.render("pages/book", {book, completed, toRead});
             } catch (e) {
-		console.log("bad: " + e);
 		result.render("pages/notfound", {});
             }
         } else {
@@ -76,21 +69,18 @@ const constructorMethod = app => {
 
     app.post("/addToRead", async (req, res, next) => {
         let bookId = req.body.book_id;
-        console.log(bookId);
 
         if (req.session.currentUser) {
             const userBook = await userBooks.get(req.session.currentUser, req.body.book_id);
             if (userBook == null) {
                 try {
                     let insertedBook = await userBooks.create(req.session.currentUser, bookId, false, "");
-                    console.log("inserted", insertedBook);
                 } catch (e) {
                     console.log(e);
                 }
             } else {
                 try {
                     let updatedBook = await userBooks.updateCompleted(req.session.currentUser, bookId, false);
-                    console.log("updated", updatedBook);
                 } catch(e) {
                     console.log(e);
                 }
@@ -102,21 +92,18 @@ const constructorMethod = app => {
         
     app.post("/addCompleted", async (req, res, next) => {
         let bookId = req.body.book_id;
-        console.log(bookId);
         
         if (req.session.currentUser) {
             const userBook = await userBooks.get(req.session.currentUser, req.body.book_id);
             if (userBook == null) {
                 try {
                     let insertedBook = await userBooks.create(req.session.currentUser, bookId, true, "");
-                    console.log("inserted", insertedBook);
                 } catch (e) {
                     console.log(e);
                 }
             } else {
                 try {
                     let updatedBook = await userBooks.updateCompleted(req.session.currentUser, bookId, true);
-                    console.log("updated", updatedBook);
                 } catch(e) {
                     console.log(e);
                 }
@@ -143,10 +130,8 @@ const constructorMethod = app => {
 	const passwd = request.body.password;
 	try {
 	    await userData.createUser(username, await bcrypt.hash(passwd, saltRounds));
-	    console.log("woohoo");
 	    response.redirect("/login");
 	} catch (e) {
-	    console.log("bad signup: " + e);
 	    response.send("badsignup");
 	    return;
 	}
@@ -160,31 +145,21 @@ const constructorMethod = app => {
         try {
 	    user = await userData.getByUsername(username);
 	} catch (e) {
-	    console.log("itsy bitsy spider: " + e);
             response.send("badlogin");
 	    return;
 	}
-        console.log(user);
         if (user) {
-	    console.log("ififififififif");
 	    let generatedPassword = await bcrypt.hash(passwd, saltRounds);
             const authenticate = await bcrypt.compare(passwd, user.password);
             if (authenticate) {
-		console.log("we in boyzzzzzzzzzz");
                 request.session.currentUser = user._id;
                 response.redirect('/');
             } else {
-		console.log("ifnopeifnopeifnopeifnopeifnopeifnope");
-                response.render('pages/login', {
-                    errorlogin: "401 - You did not provide a valid username and/or password."
-                });
+		response.send("badlogin");
 		return;
             }
         } else {
-	    console.log("nopenopenopenopenopenopenopenope");
-            response.render('pages/login', {
-                errorlogin: "401 - You did not provide a valid username."
-            });
+            response.send("badlogin");
 	    return;
         }
     });

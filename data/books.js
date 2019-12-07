@@ -56,7 +56,6 @@ const get = async function(id) {
 
     const theBook = await bookCollection.findOne({_id: ObjectId(id)});
     
-    console.log("in get, the book is " + theBook);
     return theBook;
 };
 const getN = async function(numberToGet) {
@@ -72,9 +71,8 @@ const search = async function(searchTerm) {
     if (typeof(searchTerm) !== 'string') throw 'search term must be a string';
 
     searchTerm = searchTerm.toLowerCase();
-    searchTermWordList = searchTerm.split(' ');
-    console.log(searchTermWordList);
-    searchTermWithDashes = '';
+    let searchTermWordList = searchTerm.split(' ');
+    let searchTermWithDashes = '';
     for (let i = 0; i < searchTermWordList.length; i++) {
         if (i !== searchTermWordList.length - 1) {
             searchTermWithDashes += searchTermWordList[i] + '-';
@@ -82,11 +80,6 @@ const search = async function(searchTerm) {
             searchTermWithDashes += searchTermWordList [i];
         }
     }
-    console.log('==================================================');
-    console.log(searchTerm);
-    console.log(searchTermWithDashes);
-    console.log('==================================================');
-
 
     const bookCollection = await books();
 

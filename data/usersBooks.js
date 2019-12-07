@@ -226,15 +226,9 @@ const getAllToRead = async function(request, response) {
     let userToReadList = [];
     const theBooks = await usersBookCollection.find({}).sort({title: 1}).toArray();
     for (let i = 0; i < theBooks.length; i++) {
-        console.log("gonna iterate now");
         //*******//
         //if more than 1 user in db check if it's the current user somehow
-        console.log('-------------------- BEFORE IF STATEMENT IN USERSBOOKS ------------------------------');
-        console.log(theBooks[i].userId);
-        console.log('++++++++++++++++++++++++++++++++++++++++++++++++++');
-        console.log(request.session.currentUser);
         if (theBooks[i].userId === request.session.currentUser) {
-            console.log('-------------------- INSIDE IF STATEMENT IN USERSBOOKS ------------------------------');
             let id = theBooks[i].userId;
             const user = await userCollection.findOne({ _id: ObjectId(id) });
             if (user === null) throw `No user with id ${String(id)}`;
@@ -244,7 +238,6 @@ const getAllToRead = async function(request, response) {
             if (book === null) throw `No book with id ${String(bookid)}`;
             
             if(theBooks[i].completedBool === false){
-                console.log("book count");
                 let newbook = {
                     bookid: bookid,
                     title: book.title,
@@ -254,9 +247,6 @@ const getAllToRead = async function(request, response) {
                 userToReadList.push(newbook);
             }
         }
-    }
-    for(let j=0; j<userToReadList.length; j++){
-        console.log("hello book: " + userToReadList[j].title);
     }
     return userToReadList;
 };
@@ -269,8 +259,6 @@ const getAllCompleted = async function(request) {
     let userCompletedList = [];
     const theBooks = await usersBookCollection.find({}).sort({title: 1}).toArray();
     for (let i = 0; i < theBooks.length; i++) {
-        console.log("gonna iterate now");
-        //*******//
         //if more than 1 user in db check if it's the current user somehow
         if (theBooks[i].userId === request.session.currentUser) {
             let id = theBooks[i].userId;
@@ -282,7 +270,6 @@ const getAllCompleted = async function(request) {
             if (book === null) throw `No book with id ${String(bookid)}`;
             
             if(theBooks[i].completedBool === true){
-                console.log("book count");
                 let entry = {
                     bookid: bookid,
                     title: book.title,
@@ -292,9 +279,6 @@ const getAllCompleted = async function(request) {
                 userCompletedList.push(entry);
             }   
         }
-    }
-    for(let j=0; j<userCompletedList.length; j++){
-        console.log("hello book: " + userCompletedList[j].title);
     }
     return userCompletedList;
 };
