@@ -1,0 +1,39 @@
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="/public/stylesheet.css">
+    <title>Book Database</title>
+    <nav>
+    <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/toread">To-Read Books</a></li>
+    <li><a href="/completed">Completed Books</a></li>
+    <li><a class="active" href="/allauthors">Books by Author</a></li>
+    <li><a href="/allgenres">Books by Genre</a></li>
+    <li style="float:right"><a href="/logout">Logout</a></li>
+    </ul>
+    </nav>
+</head>
+<body>
+  <header>
+  </header>
+  <h1>
+    All Authors
+  </h1>
+  <main>
+
+    <div id="AuthorList">
+        <table>
+            <tr>
+                <th>Author</th>
+            </tr>
+            {{#each allAuthors}}
+            <tr>
+                <td width="50%"><a href="/byauthor/{{this}}" alt="{{this}}">{{this}}</a></td>
+            </tr>
+            {{/each}}
+        </table>
+    </div> 
+
+  </main>
+
+</body>
