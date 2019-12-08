@@ -19,15 +19,15 @@
         <h1 class="user_book_lists">Here are all the books you have completed:</h1>
         <table>
 	        <tr>
-	            <th>Title</th>
-	            <th>Author</th>
-                <th>Notes</th>
+	            <th width="41%">Title</th>
+	            <th width="41%">Author</th>
+                <th width="18%">Notes</th>
 	        </tr>
 	        {{#each books}}
 	         <tr>
-	            <td width="41%"><a href="/book/{{bookid}}" alt="{{bookid}}">{{title}}</a></td>
-	            <td width="41%">{{author}}</td>
-                <td width="18%" id="{{{bookid}}}" >
+	            <td><a href="/book/{{bookid}}">{{title}}</a></td>
+	            <td>{{author}}</td>
+                <td id="{{{bookid}}}" >
                     <p>{{notes}}</p> 
                     <textarea id="notes" name="Notes"></textarea>
                     <form id="update" action="/completed/{{bookid}}" onsubmit="annotate(&quot;{{bookid}}&quot,2); return false;">

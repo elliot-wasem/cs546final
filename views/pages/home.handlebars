@@ -33,13 +33,13 @@
     <div id="BookList">
 	<table>
 	  <tr>
-	    <th>Title</th>
-	    <th>Author</th>
+	    <th width="50%">Title</th>
+	    <th width="50%">Author</th>
 	  </tr>
 	  {{#each books}}
 	  <tr>
-	    <td width="50%"><a href="/book/{{_id}}" alt="{{_id}}">{{title}}</a></td>
-	    <td width="50%">{{author}}</td>
+	    <td><a href="/book/{{_id}}">{{title}}</a></td>
+	    <td>{{author}}</td>
 	  </tr>
     {{else}}
       <p>No search results available.</p>
