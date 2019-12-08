@@ -11,8 +11,10 @@ router.get("/:id", async (request, result) => {
         (books?
          async ()=>{
              try {
-		 let byGenreBooks = await books.getAllByGenre(request.params.id);
-		 result.render("pages/bygenre", {genreBooks: byGenreBooks, genreName: request.params.id});
+         let byGenreBooks = await books.getAllByGenre(request.params.id);
+         let stringName = request.params.id
+         stringName = stringName.charAt(0).toUpperCase() + stringName.slice(1)
+		 result.render("pages/bygenre", {genreBooks: byGenreBooks, genreName: stringName});
              } catch (e) {
 		 console.log(e);
 		 result.sendStatus(404);
