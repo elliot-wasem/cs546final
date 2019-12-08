@@ -27,20 +27,20 @@
     {{/if}}
 
     <div id="BookList">
-      <table>
-        <tr>
-          <th width="50%">Title</th>
-          <th width="50%">Author</th>
-        </tr>
-        {{#each genreBooks}}
-        <tr>
-          <td><a href="/book/{{_id}}">{{title}}</a></td>
-          <td>{{author}}</td>
-        </tr>
-        {{else}}
-        <p>No search results available.</p>
-        {{/each}}
-      </table>
-    </div>
+	<table>
+	  <tr>
+	    <th>Title</th>
+	    <th>Author</th>
+	  </tr>
+	  {{#each genreBooks}}
+	  <tr>
+	    <td><a href="/book/{{_id}}">{{title}}</a></td>
+	    <td>{{author}}</td>
+	  </tr>
+    {{else}}
+      <p>No search results available.</p>
+	  {{/each}}
+	</table>
+    </div> 
   </main>
 </body>

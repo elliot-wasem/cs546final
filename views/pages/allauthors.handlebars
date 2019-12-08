@@ -23,17 +23,17 @@
   <main>
 
     <div id="AuthorList">
-      <table>
-        <tr>
-          <th width="50%">Author</th>
-        </tr>
-        {{#each allAuthors}}
-        <tr>
-          <td><a href="/byauthor/{{this}}">{{this}}</a></td>
-        </tr>
-        {{/each}}
-      </table>
-    </div>
+        <table>
+            <tr>
+                <th>Author</th>
+            </tr>
+            {{#each allAuthors}}
+            <tr>
+                <td><a href="/byauthor/{{this}}">{{this}}</a></td>
+            </tr>
+            {{/each}}
+        </table>
+    </div> 
 
   </main>
 

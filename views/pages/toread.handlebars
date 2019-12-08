@@ -19,17 +19,17 @@
         {{#if books}}
         <h1 class="user_book_lists">Here are all the books you want to read:</h1>
         <table>
-            <tr>
-                <th width="41%">Title</th>
-                <th width="41%">Author</th>
-                <th width="18%">Notes</th>
-            </tr>
-            {{#each books}}
-            <tr>
-                <td><a href="/book/{{bookid}}">{{title}}</a></td>
-                <td>{{author}}</td>
-                <td id="{{{bookid}}}">
-                    <p>{{notes}}</p>
+	        <tr>
+	            <th class="f_width">Title</th>
+	            <th class="f_width">Author</th>
+                <th class="i_width">Notes</th>
+	        </tr>
+	        {{#each books}}
+	         <tr>
+	            <td><a href="/book/{{bookid}}">{{title}}</a></td>
+	            <td>{{author}}</td>
+                <td id="{{{bookid}}}" >
+                    <p>{{notes}}</p> 
                     <textarea id="notes" name="Notes"></textarea>
                     <form id="update" action="/toread/{{bookid}}"
                         onsubmit="annotate(&quot;{{bookid}}&quot, 1); return false;">
