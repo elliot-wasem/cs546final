@@ -15,19 +15,22 @@
     </nav>
   </head>
   <main>
-    <h1>{{book.title}}</h1>
-    <h2>{{book.author}}</h2>
-    <img src={{book.imageUrl}} alt="Book"><br/>
-    {{#if toRead}}<p>This book is in your "To Read" list.</p>{{/if}}
-    {{#if completed}}<p>This book is in your "Completed" list</p>{{/if}}
-    <form action="/addToRead" method="post">
-      <input type="hidden" name="book_id" value="{{book._id}}" />
-      <input type="submit" value="Add to Books to Read" {{#if toRead}}disabled{{/if}} />
-    </form>
-    <form action="/addCompleted" method="post">
-      <input type="hidden" name="book_id" value="{{book._id}}" />
-      <input type="submit" value="Add to Completed" {{#if completed}}disabled{{/if}} />
-    </form>
-    <br>
-    <button type="button" onclick="javascript:history.back()">Back</button>
+    <div class='bookmargin'>
+      <h1>{{book.title}}</h1>
+      <h2>{{book.author}}</h2>
+      <img src={{book.imageUrl}} alt="Book"><br/>
+      {{#if toRead}}<p>This book is in your "To Read" list.</p>{{/if}}
+      {{#if completed}}<p>This book is in your "Completed" list</p>{{/if}}
+      <form action="/addToRead" method="post">
+        <input type="hidden" name="book_id" value="{{book._id}}" />
+        <input type="submit" value="Add to Books to Read" {{#if toRead}}disabled{{/if}} />
+      </form>
+      <form action="/addCompleted" method="post">
+        <input type="hidden" name="book_id" value="{{book._id}}" />
+        <input type="submit" value="Add to Completed" {{#if completed}}disabled{{/if}} />
+      </form>
+      <br>
+      <button type="button" onclick="javascript:history.back()">Back</button>
+    </div>
+    
   </main>

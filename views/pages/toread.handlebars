@@ -16,7 +16,7 @@
 <body>
     <main>
         {{#if books}}
-        <h2>Here are all the books you want to read:</h2>
+        <h1 class="user_book_lists">Here are all the books you want to read:</h1>
         <table>
 	        <tr>
 	            <th>Title</th>
@@ -31,7 +31,7 @@
                     <p>{{notes}}</p> 
                     <textarea id="notes" name="Notes"></textarea>
                     <form id="update" action="/toread/{{bookid}}" onsubmit="annotate(&quot;{{bookid}}&quot, 1); return false;">
-                    <button type="submit" formmethod="POST"> Update Notes </button>
+                    <button type="submit" formmethod="POST"> Update </button>
                     </form>
                 </td>
 	        </tr>
@@ -40,7 +40,7 @@
         {{else}}
         <br>
         <br>
-        <h2>After you add a book to your To-Read list, it will be displayed here</h2>
+        <p class='to_be_displayed'>After you add a book to your To-Read list, it will be displayed here</p>
         {{/if}}
     </main>
     <script src="/public/ajax.js"></script>

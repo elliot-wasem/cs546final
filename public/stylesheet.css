@@ -2,7 +2,7 @@
 
 body {
     background: #e8e8e8;
-    color: #587795;
+    color: rgb(32, 86, 134);
     font-family: 'Poppins', sans-serif;
     padding-top: 40px;
 }
@@ -24,8 +24,7 @@ h1 {
 
 tr, th, td, table {
     border-collapse: collapse;
-    border: 1px solid #587795;
-    rules: row;
+    border: 1px solid rgb(32, 86, 134);
     align-items: left;
     margin-top: 30px;
 }
@@ -62,7 +61,7 @@ li {
 
 li a {
     display: block;
-    color: #587795;
+    color: #013F7D;
     text-align: center;
     padding: 10px 16px;
     text-decoration: none; 
@@ -104,16 +103,16 @@ input[type="text"],input[type="password"] {
 }
 
 input[type="text"]:focus {
-    border: 3px solid #587795;
+    border: 3px solid rgb(32, 86, 134);
 }
 
 input[type="password"]:focus {
-    border: 3px solid #587795;
+    border: 3px solid rgb(32, 86, 134);
 }
 
 input[type="submit"] {
     margin: 8px;
-    border: 3px solid #587795;
+    border: 3px solid rgb(32, 86, 134);
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
     text-align: center;
@@ -124,7 +123,7 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-color: #587795;
+    background-color: rgb(92, 143, 177);
   }
 
 input[type="submit"]:active {
@@ -135,7 +134,7 @@ input[type="submit"]:active {
 
 button[type="submit"] {
     margin: 8px;
-    border: 3px solid #587795;
+    border: 3px solid rgb(32, 86, 134);
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
     text-align: center;
@@ -146,11 +145,23 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #587795;
+    background-color: rgb(92, 143, 177);
 }
 
 button[type="submit"]:active {
     background-color: #e8e8e8;
     box-shadow: 0 5px #666;
     transform: translateY(4px);
+}
+
+.to_be_displayed {
+    font-size: 25px;
+}
+
+.bookmargin {
+    margin-left: 1.5rem;
+}
+
+.user_book_lists {
+    font-size: 30px;
 }

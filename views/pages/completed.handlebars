@@ -16,7 +16,7 @@
 <body>
     <main>
         {{#if books}}
-        <h2>Here are all the books you have completed:</h2>
+        <h1 class="user_book_lists">Here are all the books you have completed:</h1>
         <table>
 	        <tr>
 	            <th>Title</th>
@@ -40,7 +40,7 @@
         {{else}}
         <br>
         <br>
-        <h2>After you add a book to your Completed list, it will be displayed here</h2>
+        <p class='to_be_displayed'>After you add a book to your Completed list, it will be displayed here</p>
         {{/if}}
     </main>
     <script src="/public/ajax.js"></script>
