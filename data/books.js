@@ -97,9 +97,7 @@ const getAllAuthors = async function() {
     const bookCollection = await books();
 
     const theBooks = await bookCollection.find({}).sort({title: 1}).toArray();
-    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-    console.log(theBooks);
-    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+
     let allAuthors = [];
 
     for (let i = 0; i < theBooks.length; i++) {

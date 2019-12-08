@@ -13,7 +13,13 @@ router.get("/:id", async (request, result) => {
              try {
          let byGenreBooks = await books.getAllByGenre(request.params.id);
          let stringName = request.params.id
-         stringName = stringName.charAt(0).toUpperCase() + stringName.slice(1)
+         stringName = stringName.charAt(0).toUpperCase() + stringName.slice(1);
+         if (stringName === 'Historicalfiction') {
+            stringName = 'Historical Fiction';
+         }
+         if (stringName === 'Sciencefiction') {
+            stringName = 'Science Fiction';
+         }
 		 result.render("pages/bygenre", {genreBooks: byGenreBooks, genreName: stringName});
              } catch (e) {
 		 console.log(e);

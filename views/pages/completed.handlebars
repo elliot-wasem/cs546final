@@ -30,8 +30,8 @@
 	            <td>{{author}}</td>
                 <td id="{{{bookid}}}" >
                     <p>{{notes}}</p> 
-                    <textarea id="notes" name="Notes"></textarea>
-                    <form id="update" action="/completed/{{bookid}}"
+                    <textarea class="notes" name="Notes"></textarea>
+                    <form class="update" action="/completed/{{bookid}}"
                         onsubmit="annotate(&quot;{{bookid}}&quot,2); return false;">
                         <button type="submit" formmethod="POST"> Update Notes </button>
                     </form>
