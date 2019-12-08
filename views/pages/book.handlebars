@@ -1,23 +1,25 @@
+<head>
+  <title>{{book.title}}</title>
+  <link rel="stylesheet" type="text/css" href="/public/stylesheet.css">
+</head>
 
-  <head>
-    <title>{{book.title}}</title>
-    <link rel="stylesheet" type="text/css" href="/public/stylesheet.css">
-    <nav>
-    <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/toread">To-Read Books</a></li>
-    <li><a href="/completed">Completed Books</a></li>
-    <li><a href="/allauthors">Books by Author</a></li>
-    <li><a href="/allgenres">Books by Genre</a></li>
-    <li style="float:right"><a href="/logout">Logout</a></li>
-    </ul>
-    </nav>
-  </head>
+<body>
   <main>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/toread">To-Read Books</a></li>
+        <li><a href="/completed">Completed Books</a></li>
+        <li><a href="/allauthors">Books by Author</a></li>
+        <li><a href="/allgenres">Books by Genre</a></li>
+        <li style="float:right"><a href="/logout">Logout</a></li>
+      </ul>
+    </nav>
+
     <div class='bookmargin'>
       <h1>{{book.title}}</h1>
       <h2>{{book.author}}</h2>
-      <img src={{book.imageUrl}} alt="Book"><br/>
+      <img src={{book.imageUrl}} alt="Book"><br />
       {{#if toRead}}<p>This book is in your "To Read" list.</p>{{/if}}
       {{#if completed}}<p>This book is in your "Completed" list</p>{{/if}}
       <form action="/addToRead" method="post">
@@ -31,5 +33,6 @@
       <br>
       <button type="button" onclick="javascript:history.back()">Back</button>
     </div>
-    
+
   </main>
+</body>

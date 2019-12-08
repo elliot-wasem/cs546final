@@ -1,19 +1,20 @@
 <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="/public/stylesheet.css">
-    <title>{{name}}</title>
-    <nav>
-    <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/toread">To-Read Books</a></li>
-    <li><a href="/completed">Completed Books</a></li>
-    <li><a class="active" href="/allauthors">Books by Author</a></li>
-    <li><a href="/allgenres">Books by Genre</a></li>
-    <li style="float:right"><a href="/logout">Logout</a></li>
-    </ul>
-    </nav>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="/public/stylesheet.css">
+  <title>{{name}}</title>
 </head>
+
 <body>
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/toread">To-Read Books</a></li>
+      <li><a href="/completed">Completed Books</a></li>
+      <li><a class="active" href="/allauthors">Books by Author</a></li>
+      <li><a href="/allgenres">Books by Genre</a></li>
+      <li style="float:right"><a href="/logout">Logout</a></li>
+    </ul>
+  </nav>
   <header>
   </header>
   <h1>
@@ -21,25 +22,25 @@
   </h1>
   <main>
 
-  {{#if name}}
-  <p>Author: {{name}}</p>
-  {{/if}}
+    {{#if name}}
+    <p>Author: {{name}}</p>
+    {{/if}}
 
     <div id="BookList">
-	<table>
-	  <tr>
-	    <th width="50%">Title</th>
-	    <th width="50%">Author</th>
-	  </tr>
-	  {{#each authorBooks}}
-	  <tr>
-	    <td><a href="/book/{{_id}}">{{title}}</a></td>
-	    <td>{{author}}</td>
-	  </tr>
-    {{else}}
-      <p>No search results available.</p>
-	  {{/each}}
-	</table>
-    </div> 
+      <table>
+        <tr>
+          <th width="50%">Title</th>
+          <th width="50%">Author</th>
+        </tr>
+        {{#each authorBooks}}
+        <tr>
+          <td><a href="/book/{{_id}}">{{title}}</a></td>
+          <td>{{author}}</td>
+        </tr>
+        {{else}}
+        <p>No search results available.</p>
+        {{/each}}
+      </table>
+    </div>
   </main>
 </body>

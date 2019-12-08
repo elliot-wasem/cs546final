@@ -16,9 +16,9 @@ async function buildData() {
     const db = await connection();
 
 
-    // try {
-    // 	await db.collection("books").drop();
-    // } catch (e) {}
+    try {
+    	await db.collection("books").drop();
+    } catch (e) {}
     try {
     	await db.collection("users").drop();
     } catch (e) {}
@@ -32,7 +32,6 @@ async function buildData() {
 
     let i = 0;
 
-    return;
     let bookToTags = {};
 
     for (; i < bookTags.length; i++) {
