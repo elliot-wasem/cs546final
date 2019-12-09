@@ -111,6 +111,25 @@ const getAllAuthors = async function() {
     return allAuthors;
 };
 
+const getAllAuthorsTable = async function() {
+    const bookCollection = await books();
+    const theBooks = await bookCollection.find({}).sort({title: 1}).toArray();
+
+    let allAuthorsTable = [];
+
+    for (let i = 0; i < theBooks.length; i++) {
+        if (!allAuthorsTable.includes({authorName: theBooks[i].author, authorNameNoSpaces: theBooks[i].author.replace(/ /g, '')})) {
+            allAuthorsTable.push({
+                authorName: theBooks[i].author,
+                authorNameNoSpaces: theBooks[i].author.replace(/ /g, '')});
+        }
+    }
+
+    allAuthorsTable.sort();
+    
+    return allAuthorsTable;
+}
+
 const getAllGenres = async function() {
     allGenres = ["Biography", "Fantasy", "Fiction","Historical Fiction", "Non-fiction", "Novel", "Science Fiction", "Thriller"];
     return allGenres;
@@ -173,6 +192,7 @@ module.exports = {
     getAllByGenre,
     getAllAuthors,
     getAllGenres,
+    getAllAuthorsTable,
     getN,
     get,
     search

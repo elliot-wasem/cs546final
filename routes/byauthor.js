@@ -11,9 +11,25 @@ router.get("/:id", async (request, result) => {
         (books ?
             async () => {
                 try {
-                    author_name = request.params.id;
-                    let byAuthorBooks = await books.getAllByAuthor(request.params.id);
-                    result.render("pages/byauthor", { authorBooks: byAuthorBooks, name: author_name });
+                    const allAuthorsTable = await books.getAllAuthorsTable();
+                    console.log('(((((((((((((((((((((((((((((((((((((((((((((((((((((;')
+                    console.log(allAuthorsTable);
+                    console.log('(((((((((((((((((((((((((((((((((((((((((((((((((((((;')
+                    let neededName = '';
+                    console.log('*****************************************************');
+                    console.log(neededName);
+                    console.log('*****************************************************');
+                    for (let i = 0; i < allAuthorsTable.length; i++) {
+                        if (allAuthorsTable[i].authorNameNoSpaces === request.params.id) {
+                            neededName = allAuthorsTable[i].authorName;
+                        }
+                    }
+                    console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
+                    console.log(neededName);
+                    console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
+                    // author_name = request.params.id;
+                    let byAuthorBooks = await books.getAllByAuthor(neededName);
+                    result.render("pages/byauthor", { authorBooks: byAuthorBooks, name: neededName });
                 } catch (e) {
                     console.log(e);
                     result.sendStatus(404);
@@ -27,19 +43,5 @@ router.get("/:id", async (request, result) => {
     }
 
 });
-
-// router.post("/:id",async (request, result) =>{
-//     try{
-//         if(!request.body.notes){
-//             request.body.notes="";
-//         }
-//         await userBooks.updateNotes(request.session.currentUser,request.params.id,request.body.notes);
-//         result.status(200).send(request.body.notes);
-//     }
-//     catch(e){
-//         result.status(404).send("failed");
-//     }
-
-// });
 
 module.exports = router;

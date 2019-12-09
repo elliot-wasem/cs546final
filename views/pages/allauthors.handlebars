@@ -27,9 +27,9 @@
             <tr>
                 <th>Author</th>
             </tr>
-            {{#each allAuthors}}
+            {{#each allAuthorsObjects}}
             <tr>
-                <td><a href="/byauthor/{{this}}">{{this}}</a></td>
+                <td><a href="/byauthor/{{authorNameNoSpaces}}">{{authorName}}</a></td>
             </tr>
             {{/each}}
         </table>
