@@ -11,16 +11,8 @@ router.get("/:id", async (request, result) => {
         (books ?
             async () => {
                 try {
-                    console.log('+++++++++++++++++++++++++++++++++++++++++++++++');
-                    console.log(request.params.id);
                     author_name = request.params.id;
-                    // author_name = author_name.replace('%20', ' ');
-                    // console.log(author_name);
-                    console.log('+++++++++++++++++++++++++++++++++++++++++++++++');
                     let byAuthorBooks = await books.getAllByAuthor(request.params.id);
-                    console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
-                    console.log(byAuthorBooks);
-                    console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
                     result.render("pages/byauthor", { authorBooks: byAuthorBooks, name: author_name });
                 } catch (e) {
                     console.log(e);

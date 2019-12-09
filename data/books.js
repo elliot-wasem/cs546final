@@ -101,7 +101,6 @@ const getAllAuthors = async function() {
     let allAuthors = [];
 
     for (let i = 0; i < theBooks.length; i++) {
-        console.log(theBooks[i].author);
         if (!allAuthors.includes(theBooks[i].author)) {
             allAuthors.push(theBooks[i].author);
         }
