@@ -12,22 +12,12 @@ router.get("/:id", async (request, result) => {
             async () => {
                 try {
                     const allAuthorsTable = await books.getAllAuthorsTable();
-                    console.log('(((((((((((((((((((((((((((((((((((((((((((((((((((((;')
-                    console.log(allAuthorsTable);
-                    console.log('(((((((((((((((((((((((((((((((((((((((((((((((((((((;')
                     let neededName = '';
-                    console.log('*****************************************************');
-                    console.log(neededName);
-                    console.log('*****************************************************');
                     for (let i = 0; i < allAuthorsTable.length; i++) {
                         if (allAuthorsTable[i].authorNameNoSpaces === request.params.id) {
                             neededName = allAuthorsTable[i].authorName;
                         }
                     }
-                    console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
-                    console.log(neededName);
-                    console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
-                    // author_name = request.params.id;
                     let byAuthorBooks = await books.getAllByAuthor(neededName);
                     result.render("pages/byauthor", { authorBooks: byAuthorBooks, name: neededName });
                 } catch (e) {
