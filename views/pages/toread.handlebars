@@ -34,7 +34,7 @@
                     <form class="update" action="/toread/{{bookid}}"
                     {{!-- The below line fixes the HTML validator error, but then the update button doesn't work. --}}
                     {{!-- onsubmit="annotate(&quot;{{bookid}}&amp;quot, 1); return false;"></form> --}}
-                        onsubmit="annotate(&quot;{{bookid}}&quot, 1); return false;">
+                        onsubmit='annotate(&quot;{{bookid}}&quot;, 1); return false;'>
                         <button type="submit" formmethod="POST"> Update </button>
                     </form>
                 </td>

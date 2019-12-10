@@ -32,7 +32,7 @@
                     <p>{{notes}}</p> 
                     <textarea class="notes" name="Notes"></textarea>
                     <form class="update" action="/completed/{{bookid}}"
-                        onsubmit="annotate(&quot;{{bookid}}&quot,2); return false;">
+                        onsubmit="annotate(&quot;{{bookid}}&quot;,2); return false;">
                         <button type="submit" formmethod="POST"> Update Notes </button>
                     </form>
                 </td>
